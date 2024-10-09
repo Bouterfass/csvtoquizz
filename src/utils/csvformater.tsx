@@ -10,8 +10,6 @@ export const csvformater = (file: Array<string[]>) => {
             }
             new_data.push(obj)
         })
-    })
-    console.log(new_data);
-    
+    })    
     return new_data;
 }
