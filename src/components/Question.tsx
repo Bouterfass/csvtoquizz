@@ -11,9 +11,7 @@ interface QuestionProps {
 
 
 
-const Question = ({ question }: QuestionProps) => {
-  console.log(question.column);
-  
+const Question = ({ question }: QuestionProps) => {  
 
   return <>
     {question.column_two}
