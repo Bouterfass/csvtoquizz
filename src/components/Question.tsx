@@ -24,7 +24,7 @@ const Question = ({ question, onCorrectAnswer, id }: QuestionProps) => {
   const handleKey = (event: any) => {
     if (event.keyCode === 13) {
       if (event.target.value === question.column) onCorrectAnswer("good");
-      else onCorrectAnswer("bad");
+      else onCorrectAnswer(event.target.value);
     }
   };
 
