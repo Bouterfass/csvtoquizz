@@ -1,12 +1,16 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-
+import { scoreCalculation } from '../utils/scoreCalculation';
 
 const Save = () => {
 
     let location = useLocation();
 
     let score = location.state.score;
+    let result = scoreCalculation(score);
+
+    console.log(`result: ${result}%`);
+    
 
     return (
         <div className='flex flex-col'>
