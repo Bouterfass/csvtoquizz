@@ -38,19 +38,27 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Simple Quizz</h1>
+    <div className="h-screen bg-amber flex items-center flex-col">
+      <h1 className="">Quizz builder</h1>
       {!selectedFile && (
-        <>
-          <label htmlFor="file">select a file</label>
-          <input
-            type="file"
-            id="file"
-            name="file"
-            accept=".csv"
-            onChange={handleFile}
-          />
-        </>
+        <div className=" bg-test flex items-center justify-center w-1/2 h-[32rem]">
+          <label className="h-3/4 w-full flex flex-col justify-center items-center text-amber-dk min-w-[322px] max-w-[508px] h-12 border-2 border-dashed border-amber-md px-4 py-2 rounded-md cursor-pointer" htmlFor="file">
+            select a file
+            <input
+              className="block w-full text-sm text-amber-dk
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-transparent file:text-amber-dk
+                        hover:file:bg-amber-dk"
+              type="file"
+              id="file"
+              name="file"
+              accept=".csv"
+              onChange={handleFile}
+            />
+          </label>
+        </div>
       )}
       {selectedFile && openSettings && (
         <Settings closeSet={closeSettings} data={csvformater(content)} />

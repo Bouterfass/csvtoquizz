@@ -23,7 +23,7 @@ const Test = () => {
   useEffect(() => {
     // Rediriger vers la page finale une fois que toutes les questions ont été traitées
     if (index === dataLength && score.length === dataLength) {
-      navigate("/save", { state: { score: score } });
+      navigate("/save", { state: { score: score, data: data } });
     }
   }, [index, score, dataLength, navigate]);
 
