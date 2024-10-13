@@ -46,11 +46,10 @@ function App() {
             select a file
             <input
               className="block w-full text-sm text-amber-dk
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-full file:border-0
+                        
                         file:text-sm file:font-semibold
-                        file:bg-transparent file:text-amber-dk
-                        hover:file:bg-amber-dk"
+                        file:w-full file:h-full
+                        file:bg-amber file:text-amber-dk"
               type="file"
               id="file"
               name="file"
