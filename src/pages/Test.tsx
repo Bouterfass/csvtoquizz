@@ -60,28 +60,30 @@ const Test = () => {
     }
   };
 
-  return (
-    <div className="flex flex-col">
-      <h1>test page</h1>
-      <span>
-        {index + 1}/{dataLength}
-      </span>
-      {!showAns && index < dataLength && (
-        <Question
-          question={data[index]}
-          onCorrectAnswer={nextQuestion}
-          id={index}
-        />
-      )}
-      {showAns && <span>{data[index]["column"]}</span>}
-      <Button
-        ref={btnRef}
-        className="w-32 rounded bg-midnight py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
-        onClick={handleAnswer}
-      >
-        {!showAns ? <span>show answer</span> : <span>next</span>}
-      </Button>
+  return (<div className="h-screen bg-yellow">
+
+    <h1>test page</h1>
+    <div className="h-4/5 flex items-center justify-center flex-col">
+      <div className="flex flex-col justify-center items-center rounded-xl bg-blue w-1/2 h-1/2">
+        {index < dataLength && (
+          <Question
+            question={data[index]}
+            onCorrectAnswer={nextQuestion}
+            id={index}
+            length={dataLength}
+            showAns={showAns}
+          />
+        )}
+        <Button
+          ref={btnRef}
+          className="w-32 rounded bg-midnight py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
+          onClick={handleAnswer}
+        >
+          {!showAns ? <span>show answer</span> : <span>next</span>}
+        </Button>
+      </div>
     </div>
+  </div>
   );
 };
 

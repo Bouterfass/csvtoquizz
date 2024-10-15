@@ -3,11 +3,13 @@ import Settings from "./Settings";
 import Papa from "papaparse";
 import "./App.css";
 import { csvformater } from "./utils/csvformater";
+import { ArrowDown } from "./components/icons/icons";
 
 function App() {
   const [openSettings, setOpenSettings] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [content, setContent] = useState<Array<string[]>>([]);
+  const [hovered, setHovered] = useState<boolean>(false);
 
   const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null; // Récupère le premier fichier sélectionné
@@ -38,30 +40,39 @@ function App() {
   };
 
   return (
-    <div className="h-screen bg-amber flex items-center flex-col">
+    <div className="h-screen bg-yellow flex items-center flex-col">
       <h1 className="">Quizz builder</h1>
-      {!selectedFile && (
-        <div className=" bg-test flex items-center justify-center w-1/2 h-[32rem]">
-          <label className="h-3/4 w-full flex flex-col justify-center items-center text-amber-dk min-w-[322px] max-w-[508px] h-12 border-2 border-dashed border-amber-md px-4 py-2 rounded-md cursor-pointer" htmlFor="file">
-            select a file
-            <input
-              className="block w-full text-sm text-amber-dk
-                        
-                        file:text-sm file:font-semibold
-                        file:w-full file:h-full
-                        file:bg-amber file:text-amber-dk"
-              type="file"
-              id="file"
-              name="file"
-              accept=".csv"
-              onChange={handleFile}
-            />
-          </label>
-        </div>
-      )}
-      {selectedFile && openSettings && (
-        <Settings closeSet={closeSettings} data={csvformater(content)} />
-      )}
+      <section>
+
+        {!selectedFile && (
+          <div  className={`${
+            hovered ? "bg-purple" : "bg-blue"
+          } transition ease-in-out delay-100 flex items-center justify-center w-[28rem] h-[12rem] rounded-md`}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <label className={`${hovered ? "border-white" : "border-purple"} h-full w-full flex flex-col justify-center items-center text-amber-dk border-2 border-dashed px-2 rounded-md cursor-pointer`} htmlFor="file">
+              <div className="flex flex-col items-center">
+                <ArrowDown height="120" width="120" hover={hovered} />
+                <span className={`${hovered ? "text-white" : "text-purple"} block font-semibold h-full w-full flex items-center justify-center`}>
+                  Drop your file here or click to choose a file
+                </span>
+              </div>
+              <input
+                className="absolute w-[28rem] h-[12rem] opacity-0 cursor-pointer"
+                type="file"
+                id="file"
+                name="file"
+                accept=".csv"
+                onChange={handleFile}
+              />
+            </label>
+          </div>
+        )}
+        {selectedFile && openSettings && (
+          <Settings closeSet={closeSettings} data={csvformater(content)} />
+        )}
+      </section>
     </div>
   );
 }
