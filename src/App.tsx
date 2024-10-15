@@ -46,7 +46,6 @@ function App() {
             select a file
             <input
               className="block w-full text-sm text-amber-dk
-                        
                         file:text-sm file:font-semibold
                         file:w-full file:h-full
                         file:bg-amber file:text-amber-dk"
