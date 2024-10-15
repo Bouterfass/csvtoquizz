@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { scoreCalculation } from '../utils/scoreCalculation';
 import CountUp from 'react-countup';
 import { Button } from '@headlessui/react';
+import ListItem from '../components/UI/ListItem';
 
 
 const Save = () => {
@@ -14,6 +15,9 @@ const Save = () => {
     let data = location.state.data;
     let result = scoreCalculation(score);
 
+    console.table("score: ", score);
+    
+
     console.log(`result: ${result}%`);
 
     const handleRetry = () => navigate(`/test/${data.length}`, { state: { key: data } })
@@ -24,11 +28,9 @@ const Save = () => {
             <CountUp end={result} duration={3} />
             {score.map((q: any, i: number) => {
                 return (<div key={i}>
-                    <hr />
-                    <span>{q.correct ? "vrai" : "faux"}</span>
-                    <span>{q.question}</span>
-                    <span>{q.answer}</span>
-                </div>)
+                    <ListItem score={q} />
+                </div>
+                )
             })}
             <Button
                 className="w-32 rounded bg-midnight py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"

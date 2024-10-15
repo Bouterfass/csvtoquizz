@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Variables globales */
+  :root {
+    --main-color: #FFFED3;
+    --secondary-color: #edf2f7;
+    --main-font: 'Inter', sans-serif;
+  }
+
+  /* Styles globaux pour html et body */
+  html, body {
+    @apply bg-yellow text-black; /* Classes utilitaires Tailwind */
+    font-family: "Proxima Nova", system-ui, sans-serif;
+  }
+
+  /* Appliquer les styles globaux de réinitialisation */
+  * {
+    @apply m-0 p-0 box-border;
+  }
+}

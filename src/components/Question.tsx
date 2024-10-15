@@ -31,10 +31,10 @@ const Question = ({ question, onCorrectAnswer, id, showAns }: QuestionProps) => 
 
   return (
     <>
-      {showAns ? <span className="text-2xl">{question.column}</span> : 
+      {showAns ? <span className="text-2xl text-black font-bold">{question.column}</span> : 
         <Input
         autoFocus
-        className="w-80 border-solid border-2 border-midnight"
+        className="w-80 bg-transparent text-center text-2xl text-black font-bold border-black border-solid border-b-2 focus:outline-none"
         name="answer"
         type="text"
         onChange={handleChange}
