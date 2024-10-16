@@ -43,7 +43,8 @@ const Test = () => {
             user_answer: data[index]["column"]
           },
         ]);
-        setIndex((index) => index + 1);
+        if (index < dataLength - 1)
+            setIndex((index) => index + 1);
       } else {
         setScore((score) => [
           ...score,
@@ -88,7 +89,7 @@ const Test = () => {
             <span className="text-2xl text-black font-bold">
               {index + 1} / {dataLength}
             </span>
-            <span className="text-2xl text-black font-bold">{data[index].column_two}</span>
+            <span className="text-2xl text-black font-bold">{data[index]?.column_two}</span>
           </div>
           <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2">
             {index < dataLength && (
