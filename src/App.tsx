@@ -65,7 +65,6 @@ function App() {
       (item) => Array.isArray(item) && item.every((i) => typeof i === "string")
     ) as string[][];
     if (content.length > 0) {
-      console.log("content ", content);
       csvformater(content, extension);
     }
   }, [content]);
