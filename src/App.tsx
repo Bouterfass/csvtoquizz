@@ -4,54 +4,56 @@ import Papa from "papaparse";
 import "./App.css";
 import { csvformater } from "./utils/csvformater";
 import { ArrowDown } from "./components/icons/icons";
-import { log } from "console";
 
 function App() {
   const [openSettings, setOpenSettings] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [content, setContent] = useState<Array<string[]>>([]);
+  const [content, setContent] = useState<Array<string[] | object>>([]);
   const [hovered, setHovered] = useState<boolean>(false);
+  const [extension, setExtension] = useState<string>("");
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files ? event.target.files[0] : null; // Récupère le premier fichier sélectionné
-    console.log(file);
+    const file = event.target.files ? event.target.files[0] : null;
 
-    if (file?.name.includes(".csv")) {
-      setOpenSettings(true);
-      setSelectedFile(file);
-
-      Papa.parse(file, {
-        header: false,
-        complete: (results: any) =>
-          setContent((previous) => [...previous, results.data]),
-      });
-    } else {
+    if (!file) {
       setOpenSettings(false);
       setSelectedFile(null);
+      return;
     }
 
-    if (file?.name.includes(".json")) {
-      console.log("Processing JSON file");
+    setSelectedFile(file);
 
-      setOpenSettings(true);
-      setSelectedFile(file);
-  
+    if (file.name.endsWith(".csv")) {
+      setExtension("csv")
+      Papa.parse(file, {
+        header: false,
+        complete: (results: any) => {
+          setContent((previous) => [...previous, ...results.data]);
+          setOpenSettings(true);
+        },
+      });
+    } else if (file.name.endsWith(".json")) {
+      setExtension("json")
       const reader = new FileReader();
       reader.onload = (event) => {
         const jsonContent = event.target?.result;
-        console.log("jsonContent", jsonContent);
-        
+
         if (jsonContent) {
           const parsedJson = JSON.parse(jsonContent as string);
-          console.log("myData", parsedJson);
-          setContent((previous) => [...previous, parsedJson]);
+          // Si le JSON est un tableau, on l'ajoute directement
+          if (Array.isArray(parsedJson)) {
+            setContent((previous) => [...previous, ...parsedJson]);
+          } else {
+            // Sinon, on l'ajoute comme un seul objet
+            setContent((previous) => [...previous, parsedJson]);
+          }
+          setOpenSettings(true);
         }
       };
       reader.onerror = (error) => {
         console.error("File reading error", error);
       };
-  
-      reader.readAsText(file); // Lire le fichier JSON comme du texte
+      reader.readAsText(file);
     } else {
       setOpenSettings(false);
       setSelectedFile(null);
@@ -59,10 +61,12 @@ function App() {
   };
 
   useEffect(() => {
+    const csvData = content.filter(
+      (item) => Array.isArray(item) && item.every((i) => typeof i === "string")
+    ) as string[][];
     if (content.length > 0) {
       console.log("content ", content);
-
-      csvformater(content);
+      csvformater(content, extension);
     }
   }, [content]);
 
@@ -111,7 +115,7 @@ function App() {
           </div>
         )}
         {selectedFile && openSettings && (
-          <Settings closeSet={closeSettings} data={csvformater(content)} />
+          <Settings closeSet={closeSettings} data={csvformater(content, extension)} />
         )}
       </section>
     </div>
