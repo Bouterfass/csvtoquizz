@@ -75,29 +75,26 @@ function App() {
   };
 
   return (
-    <div className="h-screen bg-yellow flex items-center flex-col">
-      <h1 className="">Quizz builder</h1>
+    <div className="h-screen bg-yellow flex items-center flex-col dark:bg-blackDk">
+      <h1 className="dark:text-blueDk">Quizz builder</h1>
       <section>
         {!selectedFile && (
           <div
-            className={`${
-              hovered ? "bg-purple" : "bg-blue"
-            } transition ease-in-out delay-100 flex items-center justify-center w-[28rem] h-[12rem] rounded-md`}
+            className={`${hovered ? "bg-purple" : "bg-blue"
+              } transition ease-in-out delay-100 flex items-center justify-center w-[28rem] h-[12rem] rounded-md dark:bg-black`}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
             <label
-              className={`${
-                hovered ? "border-white" : "border-purple"
-              } h-full w-full flex flex-col justify-center items-center text-amber-dk border-2 border-dashed px-2 rounded-md cursor-pointer`}
+              className={`${hovered ? "border-white dark:border-pinkDk" : "border-purple dark:border-blueDk"
+                } h-full w-full flex flex-col justify-center items-center text-amber-dk border-2 border-dashed px-2 rounded-md cursor-pointer`}
               htmlFor="file"
             >
               <div className="flex flex-col items-center">
                 <ArrowDown height="120" width="120" hover={hovered} />
                 <span
-                  className={`${
-                    hovered ? "text-white" : "text-purple"
-                  } block font-semibold h-full w-full flex items-center justify-center`}
+                  className={`${hovered ? "text-white dark:text-pinkDk" : "text-purple"
+                    } block font-semibold h-full w-full flex items-center justify-center`}
                 >
                   Drop your file here or click to choose a file
                 </span>

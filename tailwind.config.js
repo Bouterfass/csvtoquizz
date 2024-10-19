@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -16,6 +17,11 @@ module.exports = {
         blue: '#BBE9FF',
         test: '#b45309',
         testDk: '#fecaca',
+        blackDk: '#0e0e0e',
+        pinkDk: '#f472b6',
+        purpleDk: '#c084fc',
+        blueDk: '#38bdf8',
+        yellowDk: '#facc15',
         // En gardant les couleurs de base comme gray
         gray: {
           100: '#f7fafc',

@@ -1,3 +1,6 @@
+import useDarkSide from "../../hooks/useDarkSide";
+
+
 export const ArrowDown = ({
   height,
   width,
@@ -7,6 +10,24 @@ export const ArrowDown = ({
   width: string;
   hover: boolean;
 }) => {
+
+
+  const [theme, setTheme] = useDarkSide();
+  let arrowColor = () => {
+    if (hover) {
+      if (theme == "light")
+        return "white"
+      else 
+        return '#f472b6'
+    } else {
+      if (theme == "light")
+        return "white";
+      else
+        return "#B1AFFF";
+    }
+  }
+
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +35,7 @@ export const ArrowDown = ({
       height={height}
       viewBox="0 0 24 24"
       fill="none"
-      stroke={hover ? "white" : "#B1AFFF"}
+      stroke={arrowColor()}
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"

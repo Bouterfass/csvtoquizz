@@ -14,19 +14,38 @@ const Test = () => {
   let location = useLocation();
   let btnRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
+
   const [index, setIndex] = useState<number>(0);
   const [showAns, setShowAns] = useState<Boolean>(false);
   const [score, setScore] = useState<Score[]>([]);
+  const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true); // To track if it's the first render
 
   let data = location.state.key;
   let dataLength: number = data.length;
 
+  // Initialize score and index from localStorage on mount
   useEffect(() => {
-    // Rediriger vers la page finale une fois que toutes les questions ont été traitées
-    console.log("index", index);
+    const storedScore = localStorage.getItem("score");
+    if (storedScore) {
+      const parsedScore = JSON.parse(storedScore);
+      if (Array.isArray(parsedScore)) {
+        setScore(parsedScore);
+        setIndex(parsedScore.length); // Initialize the index based on the stored score
+      }
+    }
+    setIsInitialLoad(false); // Set it to false after the initial load
+  }, []);
+
+  // Update localStorage when the score changes, but skip on the first render
+  useEffect(() => {
+    if (!isInitialLoad) {
+      localStorage.setItem("score", JSON.stringify(score));
+    }
+  }, [score, isInitialLoad]);
+
+  // Navigate to the result page when the user finishes the test
+  useEffect(() => {
     if (index === dataLength - 1 && score.length === dataLength) {
-      console.log("je rentre ici");
-      
       navigate("/result", { state: { score: score, data: data } });
     }
   }, [index, score, dataLength, navigate]);
@@ -43,8 +62,7 @@ const Test = () => {
             user_answer: data[index]["column"]
           },
         ]);
-        if (index < dataLength - 1)
-            setIndex((index) => index + 1);
+        if (index < dataLength - 1) setIndex((index) => index + 1);
       } else {
         setScore((score) => [
           ...score,

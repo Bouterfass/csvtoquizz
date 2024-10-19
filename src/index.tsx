@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import './styles/global.css';
+import Navbar from './components/NavBar';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,6 +16,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
+      <Navbar />
       <RouterProvider router={router} />
     </React.StrictMode>
   </Provider>
