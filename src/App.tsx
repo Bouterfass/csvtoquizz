@@ -61,6 +61,10 @@ function App() {
   };
 
   useEffect(() => {
+    localStorage.removeItem("score")
+  }, [])
+
+  useEffect(() => {
     const csvData = content.filter(
       (item) => Array.isArray(item) && item.every((i) => typeof i === "string")
     ) as string[][];
@@ -93,7 +97,7 @@ function App() {
               <div className="flex flex-col items-center">
                 <ArrowDown height="120" width="120" hover={hovered} />
                 <span
-                  className={`${hovered ? "text-white dark:text-pinkDk" : "text-purple"
+                  className={`${hovered ? "text-white dark:text-pinkDk" : "text-purpleDk dark:text-purple"
                     } block font-semibold h-full w-full flex items-center justify-center`}
                 >
                   Drop your file here or click to choose a file
