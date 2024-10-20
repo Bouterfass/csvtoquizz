@@ -7,11 +7,15 @@ const ThemeSwitcher = () => {
     const [enabled, setEnabled] = useState(false);
     const [theme,setTheme] = useDarkSide();
 
+    useEffect(() => {
+      // Si le thème actuel est "dark", activer le switch
+      setEnabled(theme === 'dark');
+    }, [theme]);  // Exécuter à chaque fois que le thème change
+  
     const toggleTheme = () => {
-        const newTheme = theme === "dark" ? "light" : "dark";
-        setTheme(newTheme);
-        setEnabled(!enabled);
-      };
+      const newTheme = theme === "dark" ? "light" : "dark";
+      setTheme(newTheme);  // Changer le thème
+    };
 
     return (
       <Switch

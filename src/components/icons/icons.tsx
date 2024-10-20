@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import useDarkSide from "../../hooks/useDarkSide";
-
 
 export const ArrowDown = ({
   height,
@@ -10,23 +10,21 @@ export const ArrowDown = ({
   width: string;
   hover: boolean;
 }) => {
+  const [color, setColor] = useState("");
+  const [theme, setTheme] = useDarkSide(); // Utilisation de useDarkSide pour suivre le thème
 
+  useEffect(() => {
+    console.log(`Hover: ${hover}, Theme: ${theme}`);
+    arrowColor(); // Appel pour ajuster la couleur de l'icône en fonction du thème et du hover
+  }, [hover, theme]); // On inclut 'theme' ici pour réagir aux changements de thème
 
-  const [theme, setTheme] = useDarkSide();
-  let arrowColor = () => {
-    if (hover) {
-      if (theme == "light")
-        return "white"
-      else 
-        return '#f472b6'
+  const arrowColor = () => {
+    if (theme === "light") {
+      setColor(hover ? "#B1AFFF" : "white");
     } else {
-      if (theme == "light")
-        return "white";
-      else
-        return "#B1AFFF";
+      setColor(hover ? "white" : "#B1AFFF");
     }
-  }
-
+  };
 
   return (
     <svg
@@ -35,7 +33,7 @@ export const ArrowDown = ({
       height={height}
       viewBox="0 0 24 24"
       fill="none"
-      stroke={arrowColor()}
+      stroke={color}
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
