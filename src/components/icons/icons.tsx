@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useDarkSide from "../../hooks/useDarkSide";
+import { useTheme } from "../../context/ThemeContext";
 
 export const ArrowDown = ({
   height,
@@ -10,21 +10,22 @@ export const ArrowDown = ({
   width: string;
   hover: boolean;
 }) => {
-  const [color, setColor] = useState("");
-  const [theme, setTheme] = useDarkSide(); // Utilisation de useDarkSide pour suivre le thème
+
+  const [color, setColor] = useState<string>("");
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
-    console.log(`Hover: ${hover}, Theme: ${theme}`);
-    arrowColor(); // Appel pour ajuster la couleur de l'icône en fonction du thème et du hover
-  }, [hover, theme]); // On inclut 'theme' ici pour réagir aux changements de thème
+    arrowColor();
+  }, [hover, color])
 
   const arrowColor = () => {
-    if (theme === "light") {
-      setColor(hover ? "#B1AFFF" : "white");
-    } else {
-      setColor(hover ? "white" : "#B1AFFF");
-    }
-  };
+    if (theme === "dark")
+      setColor(hover ? '#f472b6' : '#B1AFFF')
+    else 
+      setColor(hover ? "white" : "#B1AFFF")
+  }
+
+  
 
   return (
     <svg
@@ -39,7 +40,7 @@ export const ArrowDown = ({
       stroke-linejoin="round"
       className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-down-to-arc"
       style={{
-        transition: hover ? "stroke 0.1s ease" : "none", // Ajoute une transition de 0.5s sur la couleur
+        transition: "stroke 0.1s ease", // Ajoute une transition de 0.5s sur la couleur
       }}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />

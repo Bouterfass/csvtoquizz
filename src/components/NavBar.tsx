@@ -1,5 +1,4 @@
 import React from 'react';
-import useDarkSide from '../hooks/useDarkSide';
 import ThemeSwitcher from './ThemeSwitcher';
 
 const Navbar = () => {

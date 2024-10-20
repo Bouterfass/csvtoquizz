@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Question from "../components/Question";
 import { Button } from "@headlessui/react";
+import BigTitle from "../components/UI/BigTitle";
 
 interface Score {
   correct: Boolean;
@@ -99,15 +100,17 @@ const Test = () => {
   };
 
   return (
-    <div className="h-screen bg-yellow">
-      <h1>test page</h1>
+    <div className="h-screen bg-yellow dark:bg-blackDk">
+      <BigTitle>
+        <h1>test page</h1>
+      </BigTitle>
       <div className="h-4/5 flex items-center justify-center flex-col">
-        <div className="flex flex-col justify-center items-center rounded-xl bg-blue w-1/2 h-1/2 m-10 py-5 shadow-2xl">
-          <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2 border-dotted border-b-4 border-purple">
-            <span className="text-2xl text-black font-bold">
+        <div className="flex flex-col justify-center items-center rounded-xl bg-blue w-1/2 h-1/2 m-10 py-5 shadow-2xl dark:bg-black dark:shadow-black-500">
+          <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2 border-dashed border-b-2 border-red dark:border-pinkDk">
+            <span className="text-2xl text-pinkDk font-bold dark:text-blueDk">
               {index + 1} / {dataLength}
             </span>
-            <span className="text-2xl text-black font-bold">{data[index]?.column_two}</span>
+            <span className="text-2xl text-pinkDk font-bold dark:text-blueDk">{data[index]?.column_two}</span>
           </div>
           <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2">
             {index < dataLength && (
@@ -120,7 +123,7 @@ const Test = () => {
             )}
             <Button
               ref={btnRef}
-              className="w-48 text-xl rounded bg-purple py-2 px-4 text-sm transition ease-in-out delay-50 text-white data-[hover]:bg-pink data-[active]:bg-sky-700"
+              className="w-48 text-xl font-bold rounded bg-purple py-2 px-4 text-sm transition ease-in-out delay-50 text-white data-[hover]:bg-pink data-[active]:bg-sky-700 dark:bg-yellowDk dark:text-blackDk dark:font-bold"
               onClick={handleAnswer}
             >
               {!showAns ? <span>show answer</span> : <span>next</span>}

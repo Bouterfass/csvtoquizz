@@ -4,6 +4,7 @@ import Papa from "papaparse";
 import "./App.css";
 import { csvformater } from "./utils/csvformater";
 import { ArrowDown } from "./components/icons/icons";
+import BigTitle from "./components/UI/BigTitle";
 
 function App() {
   const [openSettings, setOpenSettings] = useState(false);
@@ -24,7 +25,7 @@ function App() {
     setSelectedFile(file);
 
     if (file.name.endsWith(".csv")) {
-      setExtension("csv")
+      setExtension("csv");
       Papa.parse(file, {
         header: false,
         complete: (results: any) => {
@@ -33,7 +34,7 @@ function App() {
         },
       });
     } else if (file.name.endsWith(".json")) {
-      setExtension("json")
+      setExtension("json");
       const reader = new FileReader();
       reader.onload = (event) => {
         const jsonContent = event.target?.result;
@@ -61,6 +62,10 @@ function App() {
   };
 
   useEffect(() => {
+    localStorage.removeItem("score");
+  }, []);
+
+  useEffect(() => {
     const csvData = content.filter(
       (item) => Array.isArray(item) && item.every((i) => typeof i === "string")
     ) as string[][];
@@ -76,25 +81,34 @@ function App() {
 
   return (
     <div className="h-screen bg-yellow flex items-center flex-col dark:bg-blackDk">
-      <h1 className="dark:text-blueDk">Quizz builder</h1>
+      <BigTitle>
+        <h1>Quizz builder</h1>
+      </BigTitle>
       <section>
         {!selectedFile && (
           <div
-            className={`${hovered ? "bg-purple" : "bg-blue"
-              } transition ease-in-out delay-100 flex items-center justify-center w-[28rem] h-[12rem] rounded-md dark:bg-black`}
+            className={`${
+              hovered ? "bg-purple" : "bg-blue"
+            } transition ease-in-out delay-100 flex items-center justify-center w-[28rem] h-[12rem] rounded-md dark:bg-black`}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
             <label
-              className={`${hovered ? "border-white dark:border-pinkDk" : "border-purple dark:border-blueDk"
-                } h-full w-full flex flex-col justify-center items-center text-amber-dk border-2 border-dashed px-2 rounded-md cursor-pointer`}
+              className={`${
+                hovered
+                  ? "border-white dark:border-pinkDk"
+                  : "border-purple dark:border-blueDk"
+              } h-full w-full flex flex-col justify-center items-center text-amber-dk border-2 border-dashed px-2 rounded-md cursor-pointer`}
               htmlFor="file"
             >
               <div className="flex flex-col items-center">
                 <ArrowDown height="120" width="120" hover={hovered} />
                 <span
-                  className={`${hovered ? "text-white dark:text-pinkDk" : "text-purple"
-                    } block font-semibold h-full w-full flex items-center justify-center`}
+                  className={`${
+                    hovered
+                      ? "text-white dark:text-pinkDk"
+                      : "text-purpleDk dark:text-purple"
+                  } block font-semibold h-full w-full flex items-center justify-center`}
                 >
                   Drop your file here or click to choose a file
                 </span>
@@ -111,7 +125,10 @@ function App() {
           </div>
         )}
         {selectedFile && openSettings && (
-          <Settings closeSet={closeSettings} data={csvformater(content, extension)} />
+          <Settings
+            closeSet={closeSettings}
+            data={csvformater(content, extension)}
+          />
         )}
       </section>
     </div>
