@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Question from "../components/Question";
 import { Button } from "@headlessui/react";
 import BigTitle from "../components/UI/BigTitle";
+import CancelPopOver from "../components/UI/CancelPopOver";
 
 interface Score {
   correct: Boolean;
@@ -128,6 +129,7 @@ const Test = () => {
             >
               {!showAns ? <span>show answer</span> : <span>next</span>}
             </Button>
+            <CancelPopOver />
           </div>
         </div>
       </div>
