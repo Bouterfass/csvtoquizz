@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Input } from "@headlessui/react";
 
 interface Question {
