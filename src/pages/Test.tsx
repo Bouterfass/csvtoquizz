@@ -61,7 +61,7 @@ const Test = () => {
             correct: true,
             question: data[index]["column_two"],
             answer: data[index]["column"],
-            user_answer: data[index]["column"]
+            user_answer: data[index]["column"],
           },
         ]);
         if (index < dataLength - 1) setIndex((index) => index + 1);
@@ -106,12 +106,17 @@ const Test = () => {
         <h1>test page</h1>
       </BigTitle>
       <div className="h-4/5 flex items-center justify-center flex-col">
-        <div className="flex flex-col justify-center items-center rounded-xl bg-blue w-1/2 h-1/2 m-10 py-5 shadow-2xl dark:bg-black dark:shadow-black-500">
+        <div className="flex flex-col relative  justify-center items-center rounded-xl bg-blue w-[30%] h-1/2 m-10 py-5 shadow-2xl dark:bg-black dark:shadow-black-500">
+          <div className="absolute top-0 right-0">
+            <CancelPopOver />
+          </div>
           <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2 border-dashed border-b-2 border-red dark:border-pinkDk">
             <span className="text-2xl text-pinkDk font-bold dark:text-blueDk">
               {index + 1} / {dataLength}
             </span>
-            <span className="text-2xl text-pinkDk font-bold dark:text-blueDk">{data[index]?.column_two}</span>
+            <span className="text-2xl text-pinkDk font-bold dark:text-blueDk">
+              {data[index]?.column_two}
+            </span>
           </div>
           <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2">
             {index < dataLength && (
@@ -129,7 +134,6 @@ const Test = () => {
             >
               {!showAns ? <span>show answer</span> : <span>next</span>}
             </Button>
-            <CancelPopOver />
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ const Question = ({ question, onCorrectAnswer, id, showAns }: QuestionProps) => 
 
   return (
     <>
-      {showAns ? <span className="text-2xl text-black font-bold">{question.column}</span> : 
+      {showAns ? <span className="text-2xl text-black font-bold pb-2 dark:text-yellow">{question.column}</span> : 
         <Input
         autoFocus
         className="w-80 bg-transparent text-center text-2xl text-purple font-bold border-purple border-solid border-b-2 focus:outline-none dark:border-yellowDk dark:text-yellow"
