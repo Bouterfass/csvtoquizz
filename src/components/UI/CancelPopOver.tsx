@@ -3,8 +3,10 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function CancelPopOver() {
-    let [isOpen, setIsOpen] = useState(true)
+    let [isOpen, setIsOpen] = useState(false)
     let navigate = useNavigate();
+
+
     const handleContinue = () => {
         setIsOpen(false);
     }
@@ -25,7 +27,7 @@ export default function CancelPopOver() {
                 Open dialog
             </Button>
 
-            <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={close} __demoMode>
+            <Dialog open={isOpen} as="div" className="relative z-10 focus:outline-none" onClose={handleLeave} __demoMode>
                 <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
@@ -42,13 +44,13 @@ export default function CancelPopOver() {
                             <div className="mt-4">
                                 <Button
                                     className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                                    onClick={close}
+                                    onClick={handleContinue}
                                 >
                                     continue
                                 </Button>
                                 <Button
                                     className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                                    onClick={close}
+                                    onClick={handleLeave}
                                 >
                                     leave!
                                 </Button>
