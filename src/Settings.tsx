@@ -15,16 +15,17 @@ interface DataItem {
 interface SettingsProps {
   closeSet: () => void;
   data: Array<DataItem>;
+  filename: string;
 }
 
-const Settings = ({ closeSet, data }: SettingsProps) => {
+const Settings = ({ closeSet, data, filename }: SettingsProps) => {
   const [open, setOpen] = useState<boolean>(true);
   let navigate = useNavigate();
 
   const handleClosing = (value: string) => {
 
     if (value === "start") {
-      navigate(`/test/${data.length}`, { state: { key: data } });
+      navigate(`/test/${filename}`, { state: { key: data } });
     }
     setOpen(false);
     closeSet();

@@ -5,6 +5,7 @@ import "./App.css";
 import { csvformater } from "./utils/csvformater";
 import { ArrowDown } from "./components/icons/icons";
 import BigTitle from "./components/UI/BigTitle";
+import Section from "./components/UI/Section";
 
 function App() {
   const [openSettings, setOpenSettings] = useState(false);
@@ -80,7 +81,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen bg-yellow flex items-center flex-col dark:bg-blackDk">
+    <Section className="h-screen bg-yellow flex items-center flex-col dark:bg-blackDk">
       <BigTitle>
         <h1>Quizz builder</h1>
       </BigTitle>
@@ -128,10 +129,11 @@ function App() {
           <Settings
           closeSet={closeSettings}
           data={csvformater(content, extension)}
+          filename={selectedFile.name}
           />
           )}
       </section>
-    </div>
+    </Section>
   );
 }
 

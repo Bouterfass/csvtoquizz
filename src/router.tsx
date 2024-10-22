@@ -1,19 +1,31 @@
-import { createBrowserRouter } from "react-router-dom";
-import Test from "./pages/Test";
-import Result from "./pages/Result";
-import App from "./App";
+import { createBrowserRouter } from 'react-router-dom';
+import Test from './pages/Test';
+import Result from './pages/Result';
+import Train from './pages/Train';
+import App from './App';
+import Layout from './Layout';
 
 export const router = createBrowserRouter([
-  { path: "/", element: <App /> },
   {
-    path: "/test/:id",
-    element: <Test />,
+    path: '/', // La route racine
+    element: <Layout />, // Utilisation du Layout
+    children: [
+      {
+        path: '/',
+        element: <App />,
+      },
+      {
+        path: 'test/:id',
+        element: <Test />,
+      },
+      {
+        path: 'result',
+        element: <Result />,
+      },
+      {
+        path: 'tests',
+        element: <Train />, // Exemple d'une autre page
+      },
+    ],
   },
-  {
-    path: "/result",
-    element: <Result />
-  },
-  {
-    path: "/tests"
-  }
 ]);

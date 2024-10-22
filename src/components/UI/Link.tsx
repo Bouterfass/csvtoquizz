@@ -13,7 +13,7 @@ const Link = ({ route, children }: LinkProps) => {
 
     const navigate = useNavigate()
     return <li 
-    className=""
+    className="font-bold text-purpleDk hover:underline hover:cursor-pointer dark:text-yellow"
     onClick={handleRedirection}>
         {children}
     </li>
