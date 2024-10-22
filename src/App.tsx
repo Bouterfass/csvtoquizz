@@ -5,6 +5,7 @@ import "./App.css";
 import { csvformater } from "./utils/csvformater";
 import { ArrowDown } from "./components/icons/icons";
 import BigTitle from "./components/UI/BigTitle";
+import Navbar from "./components/NavBar";
 
 function App() {
   const [openSettings, setOpenSettings] = useState(false);
@@ -80,6 +81,8 @@ function App() {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="h-screen bg-yellow flex items-center flex-col dark:bg-blackDk">
       <BigTitle>
         <h1>Quizz builder</h1>
@@ -132,6 +135,7 @@ function App() {
           )}
       </section>
     </div>
+          </div>
   );
 }
 
