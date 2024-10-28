@@ -31,22 +31,43 @@ const Train = () => {
             filename: "english_bd_easy.json",
             title: "body parts",
             level: "easy",
-            language: "english",
+            language: "anglais",
             stats: nbOfQuestions("english_bd_easy.json")
         },
         {
             filename: "english_bd_med.json",
             title: "body parts",
             level: "medium",
-            language: "english",
+            language: "anglais",
             stats: nbOfQuestions("english_bd_med.json")
         },
         {
             filename: "english_bd_hard.json",
             title: "body parts",
-            level: "medium",
-            language: "english",
+            level: "hard",
+            language: "anglais",
             stats: nbOfQuestions("english_bd_hard.json")
+        },
+        {
+            filename: "japanese_bd_hard.json",
+            title: "body parts",
+            level: "medium",
+            language: "japonais",
+            stats: nbOfQuestions("japanese_bd_hard.json")
+        },
+        {
+            filename: "english_bd_hard.json",
+            title: "body parts",
+            level: "medium",
+            language: "japonais",
+            stats: nbOfQuestions("japanese_bd_hard.json")
+        },
+        {
+            filename: "english_bd_hard.json",
+            title: "body parts",
+            level: "hard",
+            language: "japonais",
+            stats: nbOfQuestions("japanese_bd_hard.json")
         }
     ]
 
@@ -59,7 +80,7 @@ const Train = () => {
                     return <Card<QuizzProps> data={q} key={index}>
                         <h2>{q.language}</h2>
                         <p>Level: {q.level}</p>
-                        <p>Number of questions: {q.stats}</p>
+                        <p>{q.stats}</p>
                     </Card>;
                 })}
             </div>
