@@ -11,9 +11,9 @@ const ThemeSwitcher = () => {
     <Switch
       checked={enabled}
       onChange={toggleTheme}
-      className="group inline-flex h-6 w-11 items-center rounded-full bg-white border-2 border-solid border-purpleDk transition data-[checked]:bg-blue-600 dark:border-yellow dark:bg-black"
+      className="group inline-flex h-6 w-11 items-center rounded-full bg-lightWhite border-2 border-solid border-lightGrayD transition data-[checked]:bg-blue-600 dark:border-yellow dark:bg-black"
     >
-      <span className="size-4 translate-x-1 rounded-full bg-purpleDk transition group-data-[checked]:translate-x-5 dark:bg-yellow" />
+      <span className="size-4 translate-x-1 rounded-full bg-lightPurple transition group-data-[checked]:translate-x-5 dark:bg-lightGrayL" />
     </Switch>
   )
 }

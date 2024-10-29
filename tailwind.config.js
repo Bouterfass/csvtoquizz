@@ -5,24 +5,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+
         transparent: 'transparent',
         current: 'currentColor',
-        red: "#FF6961",
-        green: "#C1E1C1",
-        white: '#ffffff',
-        black: '#343131',
-        pink: '#C88EA7',
-        yellow: '#FFFED3',
-        purple: '#B1AFFF',
-        blue: '#BBE9FF',
+        lightWhite: "#fafafa",
+        lightGrayL: "#e4e5f1",
+        lightGray: '#d2d3db',
+        lightGrayD: '#9394a5',
+        lightPurple: '#484b6a',
+
+        blackDk: '#000000',
+        black: '#161618',
+        blackL: '#212124',
+        darkWhite: '#ffffff',
+        darkGray: '#818181',
+
         test: '#b45309',
         testDk: '#fecaca',
-        blackDk: '#0e0e0e',
-        pinkDk: '#f472b6',
-        purpleDk: '#c084fc',
-        blueDk: '#38bdf8',
-        yellowDk: '#facc15',
-        // En gardant les couleurs de base comme gray
+
         gray: {
           100: '#f7fafc',
           200: '#edf2f7',

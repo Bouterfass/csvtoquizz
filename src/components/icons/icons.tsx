@@ -20,9 +20,9 @@ export const ArrowDown = ({
 
   const arrowColor = () => {
     if (theme === "dark")
-      setColor(hover ? '#f472b6' : '#B1AFFF')
+      setColor(hover ? '#484b6a' : '#fafafa')
     else 
-      setColor(hover ? "white" : "#B1AFFF")
+      setColor(hover ? "white" : "#484b6a")
   }
 
   

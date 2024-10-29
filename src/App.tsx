@@ -81,7 +81,7 @@ function App() {
   };
 
   return (
-    <Section className="h-screen bg-yellow flex items-center flex-col dark:bg-blackDk">
+    <Section className="h-screen flex items-center flex-col">
       <BigTitle>
         <h1>Quizz builder</h1>
       </BigTitle>
@@ -89,16 +89,16 @@ function App() {
         {!selectedFile && (
           <div
           className={`${
-            hovered ? "bg-purple" : "bg-blue"
-          } transition ease-in-out delay-100 flex items-center justify-center w-[28rem] h-[12rem] rounded-md dark:bg-black`}
+            hovered ? "bg-lightPurple dark:bg-lightGrayL" : "bg-lightWhite dark:bg-black "
+          } transition ease-in-out delay-100 flex items-center justify-center w-[28rem] h-[12rem] rounded-md`}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           >
             <label
               className={`${
                 hovered
-                ? "border-white dark:border-pinkDk"
-                : "border-purple dark:border-blueDk"
+                ? "border-Gray dark:border-lightPurple"
+                : "border-lightPurple dark:border-lightGrayL"
               } h-full w-full flex flex-col justify-center items-center text-amber-dk border-2 border-dashed px-2 rounded-md cursor-pointer`}
               htmlFor="file"
               >
@@ -107,8 +107,8 @@ function App() {
                 <span
                   className={`${
                     hovered
-                    ? "text-white dark:text-pinkDk"
-                    : "text-purpleDk dark:text-purple"
+                    ? "text-white dark:text-lightPurple"
+                    : "text-lightPurple dark:text-lightWhite"
                   } block font-semibold h-full w-full flex items-center justify-center`}
                   >
                   Drop your file here or click to choose a file
