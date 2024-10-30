@@ -1,7 +1,6 @@
 export const csvformater = (file: Array<string[] | object>, extension: string) => {
 
     if (extension === "json") {
-        console.log(file);
         let json_data: Array<{ column: string, column_two: string }> = [];
         const obj = { ...file[0] }
         for (const property in obj)
