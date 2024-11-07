@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import Section from "../components/UI/Section";
 import BigTitle from "../components/UI/BigTitle";
 import Card from "../components/UI/Card";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { csvformater } from "../utils/csvformater";
 
 interface QuizzProps {
@@ -10,110 +10,106 @@ interface QuizzProps {
   title: string;
   language: string;
   level: string;
-  stats: number | undefined;
+  stats: number | null;
 }
 
 const Train = () => {
   const navigate = useNavigate();
-  const [content, setContent] = useState<Array<string[] | object>>([])
+  const [content, setContent] = useState<Array<string[] | object>>([]);
+  const [fileLoaded, setFileLoaded] = useState(false);
+  const [currentFile, setCurrentFile] = useState<string>("");
+  const [quizzData, setQuizzData] = useState<any[]>([]);
   let result;
 
-  const nbOfQuestions = (file: string) => {
+  const nbOfQuestions = async (file: string) => {
     try {
-      let data = require(`../data/${file}`);
-      if (Array.isArray(data)) return data.length;
-      else return Object.keys(data).length;
-    } catch (error) {
-      console.error(error);
-      return undefined;
-    }
-  };
-
-  const loadJson = async (fileName: string) => {
-    try {
-      const response = await fetch(`${process.env.PUBLIC_URL}/data/${fileName}`);
+      const response = await fetch(`${process.env.PUBLIC_URL}/data/${file}`);
       if (!response.ok) throw new Error("Erreur de chargement du fichier JSON");
   
       const data = await response.json();
-      setContent((previous) => [
-        ...previous,
-        ...(Array.isArray(data) ? data : [data]),
-      ]);
+      console.log("data", data);
+  
+      return Array.isArray(data) ? data.length : Object.keys(data).length;
     } catch (error) {
       console.error("Erreur lors du chargement du fichier JSON :", error);
+      return null;
+    }
+  };
+  
+  const getTitleByFilename = (filename: string) => {
+    const quiz = quizzData.find((q) => q.filename === filename);
+    return quiz ? quiz.title : "Title not found";
+  };
+
+  const getLevelByFilename = (filename: string) => {
+    const quiz = quizzData.find(q => q.filename === filename);
+    return quiz ? quiz.level : "Level not found"
+  }
+
+  const loadJson = async (fileName: string | null) => {
+    try {
+      const response = await fetch(`${process.env.PUBLIC_URL}/data/${fileName}`);
+      if (!response.ok) throw new Error("Erreur de chargement du fichier JSON");
+
+      const data = await response.json();
+      setContent(Array.isArray(data) ? data : [data]);
+      setFileLoaded(true); // Indique que le fichier a été chargé
+    } catch (error) {
+      console.error("Erreur lors du chargement du fichier JSON :", error);
+      setFileLoaded(false);
     }
   };
 
-  const available_quizz = [
-    {
-      filename: "english_bd_easy.json",
-      title: "body parts",
-      level: "easy",
-      language: "anglais",
-      stats: nbOfQuestions("english_bd_easy.json"),
-    },
-    {
-      filename: "english_bd_med.json",
-      title: "body parts",
-      level: "medium",
-      language: "anglais",
-      stats: nbOfQuestions("english_bd_med.json"),
-    },
-    {
-      filename: "english_bd_hard.json",
-      title: "body parts",
-      level: "hard",
-      language: "anglais",
-      stats: nbOfQuestions("english_bd_hard.json"),
-    },
-    {
-      filename: "japanese_bd_hard.json",
-      title: "body parts",
-      level: "medium",
-      language: "japonais",
-      stats: nbOfQuestions("japanese_bd_hard.json"),
-    },
-    {
-      filename: "english_bd_hard.json",
-      title: "body parts",
-      level: "medium",
-      language: "japonais",
-      stats: nbOfQuestions("japanese_bd_hard.json"),
-    },
-    {
-      filename: "english_bd_hard.json",
-      title: "body parts",
-      level: "hard",
-      language: "japonais",
-      stats: nbOfQuestions("japanese_bd_hard.json"),
-    },
-  ];
-
-  const moveTo = (fileName: any) => {
-
-    loadJson(fileName)      
-    if (content.length > 0) {
-        result = csvformater(content, "json");
-        navigate(`/test/${fileName}`, { state: { key: result } });
-      } else {
-        console.error("Erreur: le contenu est vide après le chargement.");
-      }
+  const moveTo = (fileName: string) => {
+    setCurrentFile(fileName); 
+    loadJson(fileName); 
   };
+
+  useEffect(() => {
+    if (fileLoaded && content.length > 0) {
+      result = csvformater(content, "json");
+      navigate(`/test/${currentFile}`, { state: { key: result, title: getTitleByFilename(currentFile), level: getLevelByFilename(currentFile) } });
+      setFileLoaded(false);
+    }
+  }, [fileLoaded, content, navigate, currentFile]);
+
+
+  useEffect(() => {
+    const loadData = async () => {
+      const availableQuizz = [
+        { filename: "english_bp_easy.json", title: "body parts", level: "easy", language: "anglais", stats: null },
+        { filename: "english_bp_med.json", title: "body parts", level: "medium", language: "anglais", stats: null },
+        { filename: "english_bp_hard.json", title: "body parts", level: "hard", language: "anglais", stats: null },
+        { filename: "japanese_bp_easy.json", title: "body parts", level: "medium", language: "japonais", stats: null },
+        { filename: "japanese_bp_med.json", title: "body parts", level: "medium", language: "japonais", stats: null },
+        { filename: "japanese_bp_hard.json", title: "body parts", level: "medium", language: "japonais", stats: null },
+      ];
+    
+      const quizzWithStats = await Promise.all(
+        availableQuizz.map(async (quiz) => {
+          const stats = await nbOfQuestions(quiz.filename);
+          return { ...quiz, stats };
+        })
+      );
+
+      setQuizzData(quizzWithStats);
+    };
+
+    loadData();
+  }, []);
 
   return (
     <Section>
       <BigTitle>Training page</BigTitle>
       <div className="mt-[5rem] h-[400px]">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {available_quizz.map((q, index) => {
-            return (
-              <Card<QuizzProps> data={q} key={index} onClick={() => moveTo(q.filename)}>
-                <h2>{q.language}</h2>
-                <p>Level: {q.level}</p>
-                <p>{q.stats}</p>
-              </Card>
-            );
-          })}
+          {quizzData.map((q, index) => (
+            <Card<QuizzProps> data={q} key={index} onClick={() => moveTo(q.filename)}>
+              <h2>{q.language}</h2>
+              <p>Level: {q.level}</p>
+              <p>{q.stats}</p>
+            </Card>
+          ))}
         </div>
       </div>
     </Section>

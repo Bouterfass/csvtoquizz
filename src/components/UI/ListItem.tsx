@@ -16,21 +16,21 @@ const ListItem = ({ score }: ListItemProps) => {
   const { correct, question, answer, user_answer } = score;
 
   return (
-    <div className="flex text-xl bg-purple items-center space-x-10 w-full rounded-md px-6 py-4">
-      <div className="flex items-center">
-        <span>
-          {correct ? (
-            <CorrectIcon width="32" height="32" />
-          ) : (
-            <WrongIcon width="32" height="32" />
-          )}
-        </span>
-      </div>
+    <>
+      <td className="w-full py-2 flex justify-center items-center">
+        {correct ? (
+          <div className="w-full flex justify-center">
+            <CorrectIcon width="14" height="14" />
 
-      <span>{answer}</span>
-      <span>{user_answer ? user_answer : "pas de réponse"}</span>
-      <span>{question}</span>
-    </div>
+          </div>
+        ) : (
+          <WrongIcon width="14" height="14" />
+        )}
+      </td>
+      <td className="w-1/5 py-2 text-center">{answer}</td>
+      <td className="w-1/5 py-2 text-center">{user_answer || "pas de réponse"}</td>
+      <td className="w-1/5 py-2 text-center">{question}</td>
+    </>
   );
 };
 

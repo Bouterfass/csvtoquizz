@@ -25,7 +25,7 @@ const Settings = ({ closeSet, data, filename }: SettingsProps) => {
   const handleClosing = (value: string) => {
 
     if (value === "start") {
-      navigate(`/test/${filename}`, { state: { key: data } });
+      navigate(`/test/${filename}`, { state: { key: data, title: "my test", level: "unknown" } });
     }
     setOpen(false);
     closeSet();

@@ -13,22 +13,37 @@ const Save = () => {
   let data = location.state.data;
   let result = scoreCalculation(score);
 
-  const handleRetry = () =>
+  const handleRetry = () => {
+    localStorage.removeItem('score')
     navigate(`/test/${data.length}`, { state: { key: data } });
-  const handleHome = () => navigate("/");
-
+  }
+  const handleHome = () => {
+    localStorage.removeItem('score')
+    navigate("/");
+  }
   return (
-    <div className="flex flex-col w-full h-auto bg-test items-center">
-      <CountUp end={result} duration={3} />
-      <div className="w-4/5 spacing-y-2 flex flex-col items-center space-y-1">
-        {score.map((q: any, i: number) => {
-          return (
-            <div className="w-4/5" key={i}>
-              <ListItem score={q} />
-            </div>
-          );
-        })}
-      </div>
+    <div className="flex flex-col w-full h-auto justify-center items-center">
+      <CountUp end={result} duration={8} />
+      <table className="table-fixed w-2/5 text-center">
+        <thead>
+          <tr className="bg-gray-200 text-md">
+            <th className="w-1/5 py-2">score</th>
+            <th className="w-1/5 py-2">word</th>
+            <th className="w-1/5 py-2">your answer</th>
+            <th className="w-1/5 py-2">correct answer</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {score.map((q: any, i: number) => {
+            return (
+              <tr className="border-b last:border-b-0" key={i}>
+                <ListItem score={q} />
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
       <Button
         className="w-32 rounded bg-midnight py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
         onClick={handleRetry}

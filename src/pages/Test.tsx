@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Question from "../components/Question";
 import { Button } from "@headlessui/react";
-import BigTitle from "../components/UI/BigTitle";
 import CancelPopOver from "../components/UI/CancelPopOver";
+import MedTitle from "../components/UI/MedTitle";
 
 interface Score {
   correct: Boolean;
@@ -23,6 +23,8 @@ const Test = () => {
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true); // To track if it's the first render
 
   let data = location.state.key;
+  const title: string = location.state.title;
+  const level: string = location.state.level;
   let dataLength: number = data.length;
 
   // Initialize score and index from localStorage on mount
@@ -102,19 +104,19 @@ const Test = () => {
 
   return (
     <div className="h-screen bg-yellow dark:bg-blackDk">
-      <BigTitle>
-        <h1>test page</h1>
-      </BigTitle>
       <div className="h-4/5 flex items-center justify-center flex-col">
-        <div className="flex flex-col relative  justify-center items-center rounded-xl bg-blue w-[30%] h-1/2 m-10 py-5 shadow-2xl dark:bg-black dark:shadow-black-500">
+        <MedTitle>
+          <span>{title} - {level}</span>
+        </MedTitle>
+        <div className="flex flex-col relative  justify-center items-center rounded-xl bg-blue w-[30%] h-1/2 m-4 py-5 shadow-2xl dark:text-lightGrayL dark:bg-black dark:shadow-black-500">
           <div className="absolute top-0 right-0">
             <CancelPopOver />
           </div>
-          <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2 border-dashed border-b-2 border-red dark:border-pinkDk">
+          <div className="flex items-center justify-center flex-col space-y-5 w-full h-1/2">
             <span className="text-2xl text-pinkDk font-bold dark:text-blueDk">
               {index + 1} / {dataLength}
             </span>
-            <span className="text-2xl text-pinkDk font-bold dark:text-blueDk">
+            <span className="text-2xl text-black font-bold dark:text-lightWhite">
               {data[index]?.column_two}
             </span>
           </div>
@@ -129,7 +131,12 @@ const Test = () => {
             )}
             <Button
               ref={btnRef}
-              className="w-48 text-xl font-bold rounded bg-purple py-2 px-4 text-sm transition ease-in-out delay-50 text-white data-[hover]:bg-pink data-[active]:bg-sky-700 dark:bg-yellowDk dark:text-blackDk dark:font-bold"
+              className="w-48 text-xl font-bold rounded 
+              bg-blackL py-2 my-2 px-4 text-sm transition ease-in-out 
+              delay-50 text-white data-[hover]:bg-transparent hover:text-lightPurple hover:border-2 hover:border-lightPurple
+              dark:bg-lightWhite dark:text-blackL dark:font-bold 
+              dark:hover:bg-transparent dark:hover:text-lightWhite dark:hover:border-lightWhite
+              dark:hover:border-2"
               onClick={handleAnswer}
             >
               {!showAns ? <span>show answer</span> : <span>next</span>}
