@@ -3,7 +3,14 @@ import Section from "../components/UI/Section";
 import BigTitle from "../components/UI/BigTitle";
 import Card from "../components/UI/Card";
 import { useNavigate } from "react-router-dom";
-import { csvformater } from "../utils/csvformater";
+import learningQMaker from "../utils/learningQMaker";
+
+
+interface PatternItem {
+  type: 'D' | 'T';
+  word: string;
+  answer?: string;
+}
 
 interface QuizzProps {
   filename: string;
@@ -15,11 +22,11 @@ interface QuizzProps {
 
 const Train = () => {
   const navigate = useNavigate();
-  const [content, setContent] = useState<Array<string[] | object>>([]);
+  const [content, setContent] = useState<Record<string, string>>({});
   const [fileLoaded, setFileLoaded] = useState(false);
   const [currentFile, setCurrentFile] = useState<string>("");
   const [quizzData, setQuizzData] = useState<any[]>([]);
-  let result;
+  let result: PatternItem[] = [];
 
   const nbOfQuestions = async (file: string) => {
     try {
@@ -27,7 +34,6 @@ const Train = () => {
       if (!response.ok) throw new Error("Erreur de chargement du fichier JSON");
   
       const data = await response.json();
-      console.log("data", data);
   
       return Array.isArray(data) ? data.length : Object.keys(data).length;
     } catch (error) {
@@ -52,7 +58,7 @@ const Train = () => {
       if (!response.ok) throw new Error("Erreur de chargement du fichier JSON");
 
       const data = await response.json();
-      setContent(Array.isArray(data) ? data : [data]);
+      setContent(data);
       setFileLoaded(true); // Indique que le fichier a été chargé
     } catch (error) {
       console.error("Erreur lors du chargement du fichier JSON :", error);
@@ -66,9 +72,9 @@ const Train = () => {
   };
 
   useEffect(() => {
-    if (fileLoaded && content.length > 0) {
-      result = csvformater(content, "json");
-      navigate(`/test/${currentFile}`, { state: { key: result, title: getTitleByFilename(currentFile), level: getLevelByFilename(currentFile) } });
+    if (fileLoaded && content) {
+      result= learningQMaker(content, "spaced");
+      navigate(`/test/${currentFile}`, { state: { key: result, title: getTitleByFilename(currentFile), level: getLevelByFilename(currentFile), type: "spaced" } });
       setFileLoaded(false);
     }
   }, [fileLoaded, content, navigate, currentFile]);
@@ -94,7 +100,8 @@ const Train = () => {
 
       setQuizzData(quizzWithStats);
     };
-
+    localStorage.removeItem("score")
+    localStorage.removeItem('tmp')
     loadData();
   }, []);
 
