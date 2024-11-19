@@ -2,8 +2,8 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { scoreCalculation } from "../utils/scoreCalculation";
 import CountUp from "react-countup";
-import { Button } from "@headlessui/react";
 import ListItem from "../components/UI/ListItem";
+import Button from "../components/UI/Button";
 
 const Save = () => {
   let location = useLocation();
@@ -49,16 +49,14 @@ const Save = () => {
       <div className="my-6 w-2/5 flex justify-center items-center">
 
       <Button
-        className="w-32 rounded border-2 border-solid border-lightPurple bg-midnight py-2 px-4 transition-colors ease-in-out delay-100
-         text-xl text-lightPurple hover:bg-lightPurple hover:text-lightWhite"
-        onClick={handleRetry}
+        type="first"
+        handler={handleRetry}
         >
         retry
       </Button>
       <Button
-        className="w-48 rounded bg-midnight py-2 px-4 hover:underline
-        text-xl text-lightPurple"
-        onClick={handleHome}
+        type="second"
+        handler={handleHome}
         >
         back to home
       </Button>

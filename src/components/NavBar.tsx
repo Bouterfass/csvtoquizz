@@ -1,5 +1,6 @@
 import Link from './UI/Link';
 import ThemeSwitcher from './ThemeSwitcher';
+import DroptopMenu from './UI/DroptopMenu';
 
 const Navbar = () => {
 
@@ -7,6 +8,7 @@ const Navbar = () => {
         <ul className='text-lightWhite flex flex-row items-center justify-center w-full gap-4'>
             <Link route="/">home</Link>
             <Link route="/train">train</Link>
+            <DroptopMenu />
         </ul>
         <div className='absolute right-5'>
             <ThemeSwitcher />
