@@ -15,10 +15,12 @@ const Save = () => {
 
   const handleRetry = () => {
     localStorage.removeItem('score')
+    localStorage.removeItem('tmp')
     navigate(`/test/${data.length}`, { state: { key: data } });
   }
   const handleHome = () => {
     localStorage.removeItem('score')
+    localStorage.removeItem('tmp')
     navigate("/");
   }
   return (
@@ -44,18 +46,23 @@ const Save = () => {
           })}
         </tbody>
       </table>
+      <div className="my-6 w-2/5 flex justify-center items-center">
+
       <Button
-        className="w-32 rounded bg-midnight py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
+        className="w-32 rounded border-2 border-solid border-lightPurple bg-midnight py-2 px-4 transition-colors ease-in-out delay-100
+         text-xl text-lightPurple hover:bg-lightPurple hover:text-lightWhite"
         onClick={handleRetry}
-      >
+        >
         retry
       </Button>
       <Button
-        className="w-32 rounded bg-midnight py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
+        className="w-48 rounded bg-midnight py-2 px-4 hover:underline
+        text-xl text-lightPurple"
         onClick={handleHome}
-      >
+        >
         back to home
       </Button>
+        </div>
     </div>
   );
 };

@@ -22,7 +22,9 @@ interface Score {
 
 const Quizz = ({ type, questions }: QuizzProps) => {
 
-  const [index, setIndex] = useState<number>(0)
+  const [index, setIndex] = useState<number>(() => {
+    const storedIndex = localStorage.getItem("tmp");
+    return storedIndex ? parseInt(storedIndex, 10) : 0;})
   const [answer, setAnswer] = useState<String>('')
   const [score, setScore] = useState<Array<Score>>([])
   const buttonRef = useRef<HTMLButtonElement | null>(null)
@@ -40,13 +42,6 @@ const Quizz = ({ type, questions }: QuizzProps) => {
       const parsedScore = JSON.parse(storedScore);
       if (Array.isArray(parsedScore)) {
         setScore(parsedScore);
-        console.log("stored index: ", storedIndex);
-        if (storedIndex) {
-
-          setIndex(!storedIndex ? 0 : parseInt(storedIndex)); // Initialize the index based on the stored score
-          console.log("indexxx", index);
-        }
-        
       }
     }
     setIsInitialLoad(false); // Set it to false after the initial load
@@ -58,6 +53,8 @@ const Quizz = ({ type, questions }: QuizzProps) => {
     if (index === questions.length) {
       localStorage.removeItem('tmp')
       navigate("/result", { state: { score: score, data: questions } });
+    } else {
+      localStorage.setItem("tmp", JSON.stringify(index));
     }
   }, [index])
 

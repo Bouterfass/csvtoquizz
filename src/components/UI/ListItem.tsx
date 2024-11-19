@@ -2,10 +2,9 @@ import React from "react";
 import { CorrectIcon, WrongIcon } from "../icons/icons";
 
 interface ScoreProps {
-  correct: Boolean;
-  question: string;
+  word: string;
   answer: string;
-  user_answer: string;
+  user: string;
 }
 
 interface ListItemProps {
@@ -13,12 +12,14 @@ interface ListItemProps {
 }
 
 const ListItem = ({ score }: ListItemProps) => {
-  const { correct, question, answer, user_answer } = score;
+  const { word, answer, user } = score;
+  console.log(score);
+  
 
   return (
     <>
       <td className="w-full py-2 flex justify-center items-center">
-        {correct ? (
+        {user === answer ? (
           <div className="w-full flex justify-center">
             <CorrectIcon width="14" height="14" />
 
@@ -28,8 +29,8 @@ const ListItem = ({ score }: ListItemProps) => {
         )}
       </td>
       <td className="w-1/5 py-2 text-center">{answer}</td>
-      <td className="w-1/5 py-2 text-center">{user_answer || "pas de réponse"}</td>
-      <td className="w-1/5 py-2 text-center">{question}</td>
+      <td className="w-1/5 py-2 text-center">{user || "pas de réponse"}</td>
+      <td className="w-1/5 py-2 text-center">{word}</td>
     </>
   );
 };
