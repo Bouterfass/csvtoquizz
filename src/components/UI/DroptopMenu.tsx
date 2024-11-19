@@ -3,10 +3,10 @@ import Link from "./Link";
 
 const DroptopMenu = () => {
   return (
-    <div className="bg-blackL">
+    <div>
       <Menu __demoMode>
         <MenuButton>
-          Options
+          <span className="font-bold text-lightWhite hover:underline hover:cursor-pointer dark:text-yellow">games</span>
         </MenuButton>
         <MenuItems
           transition
