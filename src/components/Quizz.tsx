@@ -1,40 +1,52 @@
 import { Button, Input } from "@headlessui/react";
 import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ModeSwitcher from "./ModeSwitcher";
+import { useMode } from "../context/ModeContext";
+
+
+interface AnswerProps {
+  romaji: String
+  kanji: String
+  kana: String
+}
 
 interface Question {
-  type: "D" | "T"
-  word: String
-  answer: String
+  type: "D" | "T";
+  word: String;
+  answer: AnswerProps;
 }
 
 interface QuizzProps {
-  type: String
+  type: String;
   questions: Array<Question>;
-
 }
 
 interface Score {
-  word: String
-  answer: String
-  user: String
+  word: String;
+  answer: AnswerProps;
+  user: String;
 }
 
 const Quizz = ({ type, questions }: QuizzProps) => {
-
   const [index, setIndex] = useState<number>(() => {
     const storedIndex = localStorage.getItem("tmp");
-    return storedIndex ? parseInt(storedIndex, 10) : 0;})
-  const [answer, setAnswer] = useState<String>('')
-  const [score, setScore] = useState<Array<Score>>([])
-  const buttonRef = useRef<HTMLButtonElement | null>(null)
+    return storedIndex ? parseInt(storedIndex, 10) : 0;
+  });
+  const [answer, setAnswer] = useState<String>("");
+  const [score, setScore] = useState<Array<Score>>([]);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
-  const navigate = useNavigate()
-  const curr = questions[index]
+  const mode = useMode();
+  const navigate = useNavigate();
+  const curr = questions[index];
 
-
+  console.log("moooooode ", mode);
   
+  console.log("quesssssss ", curr.answer.romaji);
+  
+
   useEffect(() => {
     const storedScore = localStorage.getItem("score");
     const storedIndex: string | null = localStorage.getItem("tmp");
@@ -47,16 +59,15 @@ const Quizz = ({ type, questions }: QuizzProps) => {
     setIsInitialLoad(false); // Set it to false after the initial load
   }, []);
 
-
   useEffect(() => {
-    localStorage.setItem("tmp", JSON.stringify(index))
+    localStorage.setItem("tmp", JSON.stringify(index));
     if (index === questions.length) {
-      localStorage.removeItem('tmp')
+      localStorage.removeItem("tmp");
       navigate("/result", { state: { score: score, data: questions } });
     } else {
       localStorage.setItem("tmp", JSON.stringify(index));
     }
-  }, [index])
+  }, [index]);
 
   useEffect(() => {
     if (!isInitialLoad) {
@@ -65,50 +76,66 @@ const Quizz = ({ type, questions }: QuizzProps) => {
   }, [score, isInitialLoad]);
 
   useEffect(() => {
-    if (curr && curr.type === 'D' && buttonRef.current && index < questions.length)
+    if (
+      curr &&
+      curr.type === "D" &&
+      buttonRef.current &&
+      index < questions.length
+    )
       buttonRef.current.focus();
-  }, [curr])
+  }, [curr]);
 
   const nextQuestion = (): void => {
     if (index < questions.length) {
-      if (curr.type === 'T')
-        setScore(score => [...score, {word: curr.word, answer: curr.answer, user: answer}])
-      setIndex(index < questions.length ? index + 1 : index)
+      if (curr.type === "T")
+        setScore((score) => [
+          ...score,
+          { word: curr.word, answer: curr.answer, user: answer },
+        ]);
+      setIndex(index < questions.length ? index + 1 : index);
       if (inputRef.current) {
         inputRef.current.value = ""; // Reset the input value
       }
     }
-  }
+  };
 
   const handleAnswer = (event: any) => {
-    const answer = event.target.value
-    setAnswer(answer)
-  }
+    const answer = event.target.value;
+    setAnswer(answer);
+  };
 
   const handleKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && index < questions.length) {
-      if (curr.type === 'T')
-        setScore(score => [...score, {word: curr.word, answer: curr.answer, user: answer}])
+      if (curr.type === "T")
+        setScore((score) => [
+          ...score,
+          { word: curr.word, answer: curr.answer, user: answer },
+        ]);
       setIndex((prev) => prev + 1);
       if (inputRef.current) {
-        inputRef.current.value = "" // Reset the input value
+        inputRef.current.value = ""; // Reset the input value
       }
-      setAnswer('')
+      setAnswer("");
     }
-
   };
 
   return (
-    <div className="p-4 m-4 flex justify-center items-center text-lightGrayL bg-blackL rounded-lg w-2/5 h-2/5">
-      {index < questions.length &&
-        <div className="flex justify-center items-center flex-col border-2 border-test w-4/5 h-fit">
+    <div className="relative p-4 m-4 flex justify-center items-center text-lightGrayL bg-blackL rounded-lg w-2/5 h-2/5">
+      <div className="absolute top-4 right-4">
+        <ModeSwitcher />
+      </div>
+      {index < questions.length && (
+        <div className="flex justify-center items-center flex-col w-4/5 h-fit">
           <div className="my-2">
-            <span className="font-bold text-4xl">{curr.type === "D" ? curr.answer : curr.word}</span>
+            <span className="font-bold text-4xl">
+              {curr.type === "D" ? curr.answer[`${mode.mode}`] : curr.word}
+            </span>
           </div>
-          {curr.type === 'D' ?
+          {curr.type === "D" ? (
             <div className="my-2">
               <span className="font-bold text-4xl">{curr.word}</span>
-            </div> :
+            </div>
+          ) : (
             <div className="my-2 flex justify-center">
               <Input
                 ref={inputRef}
@@ -122,16 +149,19 @@ const Quizz = ({ type, questions }: QuizzProps) => {
                 onChange={(event) => handleAnswer(event)}
                 onKeyDown={handleKey}
               />
-            </div>}
+            </div>
+          )}
           <div className="my-2">
-
             <Button
               className="text-xl font-bold p-2"
               ref={buttonRef}
               onClick={nextQuestion}
-            >suivant</Button>
+            >
+              suivant
+            </Button>
           </div>
-        </div>}
+        </div>
+      )}
     </div>
   );
 };

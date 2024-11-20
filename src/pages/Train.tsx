@@ -9,7 +9,7 @@ import learningQMaker from "../utils/learningQMaker";
 interface PatternItem {
   type: 'D' | 'T';
   word: string;
-  answer?: string;
+  answer?: object;
 }
 
 interface QuizzProps {
@@ -22,7 +22,7 @@ interface QuizzProps {
 
 const Train = () => {
   const navigate = useNavigate();
-  const [content, setContent] = useState<Record<string, string>>({});
+  const [content, setContent] = useState<Record<string, object>>({});
   const [fileLoaded, setFileLoaded] = useState(false);
   const [currentFile, setCurrentFile] = useState<string>("");
   const [quizzData, setQuizzData] = useState<any[]>([]);
@@ -73,7 +73,7 @@ const Train = () => {
 
   useEffect(() => {
     if (fileLoaded && content) {
-      result= learningQMaker(content, "spaced");
+      result = learningQMaker(content, "spaced");
       navigate(`/test/${currentFile}`, { state: { key: result, title: getTitleByFilename(currentFile), level: getLevelByFilename(currentFile), type: "spaced" } });
       setFileLoaded(false);
     }

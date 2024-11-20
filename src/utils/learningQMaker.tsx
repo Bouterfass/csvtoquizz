@@ -1,29 +1,29 @@
-type Quiz = Record<string, string>;
+type Quiz = Record<string, object>;
 
 interface PatternItem {
-  type: 'D' | 'T';
+  type: "D" | "T";
   word: string;
-  answer: string;
+  answer: object;
 }
 
-function learningQMaker(quizz: Quiz, type: 'normal' | 'spaced'): PatternItem[] {
+function learningQMaker(quizz: Quiz, type: "normal" | "spaced"): PatternItem[] {
   const words: string[] = Object.keys(quizz);
   const pattern: PatternItem[] = [];
   const displayedWords: Set<string> = new Set();
 
   function addDisplayedWord(word: string): void {
-    pattern.push({ type: 'D', word, answer: quizz[word] });
+    pattern.push({ type: "D", word: word, answer: { ...quizz[word] } });
     displayedWords.add(word);
   }
 
   function addTestedWord(word: string): void {
-    pattern.push({ type: 'T', word, answer: quizz[word] });
+    pattern.push({ type: "T", word: word, answer: { ...quizz[word] } });
   }
 
-  if (type === 'normal') {
+  if (type === "normal") {
     words.forEach((word) => addDisplayedWord(word));
     words.forEach((word) => addTestedWord(word));
-  } else if (type === 'spaced') {
+  } else if (type === "spaced") {
     let displayIndex = 0;
     let testIndex = 0;
 
