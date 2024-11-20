@@ -5,6 +5,7 @@ import "./App.css";
 import { ArrowDown } from "./components/icons/icons";
 import BigTitle from "./components/UI/BigTitle";
 import Section from "./components/UI/Section";
+import ModeSwitcher from "./components/ModeSwitcher";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       </BigTitle>
       <section>
         <h2>Home page</h2>
+        <ModeSwitcher />
       </section>
     </Section>
   );

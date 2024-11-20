@@ -1,0 +1,52 @@
+{
+    "rouge": {
+        "romaji": "aka",
+        "kanji": "赤",
+        "kana": "あか"
+    },
+    "bleu": {
+        "romaji": "ao",
+        "kanji": "青",
+        "kana": "あお"
+    },
+    "jaune": {
+        "romaji": "kiiro",
+        "kanji": "黄色",
+        "kana": "きいろ"
+    },
+    "blanc": {
+        "romaji": "shiro",
+        "kanji": "白",
+        "kana": "しろ"
+    },
+    "noir": {
+        "romaji": "kuro",
+        "kanji": "黒",
+        "kana": "くろ"
+    },
+    "orange": {
+        "romaji": "orenji",
+        "kanji": "オレンジ",
+        "kana": "おれんじ"
+    },
+    "rose pâle": {
+        "romaji": "usu momoiro",
+        "kanji": "薄桃色",
+        "kana": "うすももいろ"
+    },
+    "cyan": {
+        "romaji": "shian",
+        "kanji": "シアン",
+        "kana": "しあん"
+    },
+    "magenta": {
+        "romaji": "majenta",
+        "kanji": "マゼンタ",
+        "kana": "まぜんた"
+    },
+    "bleu clair": {
+        "romaji": "mizuiro",
+        "kanji": "水色",
+        "kana": "みずいろ"
+    }
+}

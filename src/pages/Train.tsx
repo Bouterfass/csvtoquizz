@@ -86,9 +86,10 @@ const Train = () => {
         { filename: "english_bp_easy.json", title: "body parts", level: "easy", language: "anglais", stats: null },
         { filename: "english_bp_med.json", title: "body parts", level: "medium", language: "anglais", stats: null },
         { filename: "english_bp_hard.json", title: "body parts", level: "hard", language: "anglais", stats: null },
-        { filename: "japanese_bp_easy.json", title: "body parts", level: "medium", language: "japonais", stats: null },
+        { filename: "japanese_bp_easy.json", title: "body parts", level: "easy", language: "japonais", stats: null },
         { filename: "japanese_bp_med.json", title: "body parts", level: "medium", language: "japonais", stats: null },
-        { filename: "japanese_bp_hard.json", title: "body parts", level: "medium", language: "japonais", stats: null },
+        { filename: "japanese_bp_hard.json", title: "body parts", level: "hard", language: "japonais", stats: null },
+        { filename: "japanese_col_easy.json", title: "colors", level: "easy", language: "japonais", stats: null },
       ];
     
       const quizzWithStats = await Promise.all(
