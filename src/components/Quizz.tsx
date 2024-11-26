@@ -3,29 +3,30 @@ import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModeSwitcher from "./ModeSwitcher";
 import { useMode } from "../context/ModeContext";
+import ListenButton from "./ListenButton";
 
 
 interface AnswerProps {
-  romaji: String
-  kanji: String
-  kana: String
+  romaji: string
+  kanji: string
+  kana: string
 }
 
 interface Question {
   type: "D" | "T";
-  word: String;
+  word: string;
   answer: AnswerProps;
 }
 
 interface QuizzProps {
-  type: String;
+  type: string;
   questions: Array<Question>;
 }
 
 interface Score {
-  word: String;
+  word: string;
   answer: AnswerProps;
-  user: String;
+  user: string;
 }
 
 const Quizz = ({ type, questions }: QuizzProps) => {
@@ -33,7 +34,7 @@ const Quizz = ({ type, questions }: QuizzProps) => {
     const storedIndex = localStorage.getItem("tmp");
     return storedIndex ? parseInt(storedIndex, 10) : 0;
   });
-  const [answer, setAnswer] = useState<String>("");
+  const [answer, setAnswer] = useState<string>("");
   const [score, setScore] = useState<Array<Score>>([]);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -42,9 +43,7 @@ const Quizz = ({ type, questions }: QuizzProps) => {
   const navigate = useNavigate();
   const curr = questions[index];
 
-  console.log("moooooode ", mode);
   
-  console.log("quesssssss ", curr.answer.romaji);
   
 
   useEffect(() => {
@@ -121,8 +120,15 @@ const Quizz = ({ type, questions }: QuizzProps) => {
 
   return (
     <div className="relative p-4 m-4 flex justify-center items-center text-lightGrayL bg-blackL rounded-lg w-2/5 h-2/5">
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 left-4">
         <ModeSwitcher />
+      </div>
+      <div className="absolute top-4 right-4">
+      <ListenButton
+          text={curr.answer[`${mode.mode}`]}
+          disabled={curr.type !== "D"}
+          lang="ja-JP" // Langue, par défaut "ja-JP"
+        />
       </div>
       {index < questions.length && (
         <div className="flex justify-center items-center flex-col w-4/5 h-fit">
