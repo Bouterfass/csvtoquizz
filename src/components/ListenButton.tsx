@@ -11,7 +11,6 @@ interface ListenButtonProps {
 const ListenButton: React.FC<ListenButtonProps> = ({ text, lang = "ja-JP", disabled = false}) => {
   return (
     <button
-      className=""
       onClick={() => speak(text, lang)}
       disabled={disabled}
     >

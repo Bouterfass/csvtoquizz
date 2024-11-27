@@ -1,0 +1,27 @@
+{
+    "rouge": {
+        "romaji": "aka",
+        "kanji": "赤",
+        "kana": "あか"
+    },
+    "bleu": {
+        "romaji": "ao",
+        "kanji": "青",
+        "kana": "あお"
+    },
+    "jaune": {
+        "romaji": "kiiro",
+        "kanji": "黄色",
+        "kana": "きいろ"
+    },
+    "blanc": {
+        "romaji": "shiro",
+        "kanji": "白",
+        "kana": "しろ"
+    },
+    "noir": {
+        "romaji": "kuro",
+        "kanji": "黒",
+        "kana": "くろ"
+    }
+}

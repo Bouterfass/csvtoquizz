@@ -74,7 +74,7 @@ const Train = () => {
   useEffect(() => {
     if (fileLoaded && content) {
       result = learningQMaker(content, "spaced");
-      navigate(`/test/${currentFile}`, { state: { key: result, title: getTitleByFilename(currentFile), level: getLevelByFilename(currentFile), type: "spaced" } });
+      navigate(`/test/${currentFile}`, { state: { key: result, title: getTitleByFilename(currentFile), level: getLevelByFilename(currentFile) } });
       setFileLoaded(false);
     }
   }, [fileLoaded, content, navigate, currentFile]);
@@ -83,13 +83,9 @@ const Train = () => {
   useEffect(() => {
     const loadData = async () => {
       const availableQuizz = [
-        { filename: "english_bp_easy.json", title: "body parts", level: "easy", language: "anglais", stats: null },
-        { filename: "english_bp_med.json", title: "body parts", level: "medium", language: "anglais", stats: null },
-        { filename: "english_bp_hard.json", title: "body parts", level: "hard", language: "anglais", stats: null },
-        { filename: "japanese_bp_easy.json", title: "body parts", level: "easy", language: "japonais", stats: null },
-        { filename: "japanese_bp_med.json", title: "body parts", level: "medium", language: "japonais", stats: null },
-        { filename: "japanese_bp_hard.json", title: "body parts", level: "hard", language: "japonais", stats: null },
-        { filename: "japanese_col_easy.json", title: "colors", level: "easy", language: "japonais", stats: null },
+        { filename: "col_easy.json", title: "colors", level: "easy", language: "japonais", stats: null },
+        { filename: "col_med.json", title: "colors", level: "medium", language: "japonais", stats: null },
+
       ];
     
       const quizzWithStats = await Promise.all(

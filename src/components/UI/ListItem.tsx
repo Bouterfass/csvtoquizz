@@ -19,25 +19,24 @@ interface ListItemProps {
 
 const ListItem = ({ score }: ListItemProps) => {
   const { word, answer, user } = score;
-  
-  const answers: string = `${answer['kana']} ${answer['romaji']} ${answer['kanji']}`
-  console.log(answers);
+
+  const answers: string = `${answer['kana']} 
+  ${answer['romaji']} 
+  ${answer['kanji']}`
 
   return (
     <>
-      <td className="w-full py-2 flex justify-center items-center">
-        {user === answer['kana'] || user === answer['kanji'] || user === answer['romaji'] ? (
-          <div className="w-full flex justify-center">
-            <CorrectIcon width="14" height="14" />
+      <td className="font-bold">
+          {user === answer['kana'] || user === answer['kanji'] || user === answer['romaji'] ? (
+            <span className="text-[#22c55e] dark:text-[#4ade80]">correct</span>
 
-          </div>
-        ) : (
-          <WrongIcon width="14" height="14" />
-        )}
+          ) : (
+            <span className="text-[#dc2626] dark:text-[#ef4444]">wrong</span>
+          )}
       </td>
       <td className="w-1/5 py-2 text-center">{word}</td>
-      <td className="w-1/5 py-2 text-center">{user || "pas de réponse"}</td>
-      <td className="w-1/5 py-2 text-center">{answers}</td>
+      <td className="w-1/5 py-2 text-center">{user || "-"}</td>
+      <td className="w-1/5 py-2 text-center">{[answer['kanji'], answer['kana'], answer['romaji']].map((line: string, index: number) => <p key={index}>{line}</p>)}</td>
     </>
   );
 };

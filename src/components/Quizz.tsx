@@ -18,8 +18,9 @@ interface Question {
 }
 
 interface QuizzProps {
-  type: string;
   questions: Array<Question>;
+  title: string
+  level: string
 }
 
 interface Score {
@@ -28,7 +29,7 @@ interface Score {
   user: string;
 }
 
-const Quizz = ({ type, questions }: QuizzProps) => {
+const Quizz = ({ questions, title, level }: QuizzProps) => {
   const [index, setIndex] = useState<number>(() => {
     const storedIndex = localStorage.getItem("tmp");
     return storedIndex ? parseInt(storedIndex, 10) : 0;
@@ -44,7 +45,6 @@ const Quizz = ({ type, questions }: QuizzProps) => {
 
   useEffect(() => {
     const storedScore = localStorage.getItem("score");
-    const storedIndex: string | null = localStorage.getItem("tmp");
     if (storedScore) {
       const parsedScore = JSON.parse(storedScore);
       if (Array.isArray(parsedScore)) {
@@ -55,12 +55,9 @@ const Quizz = ({ type, questions }: QuizzProps) => {
   }, []);
 
   useEffect(() => {
-    console.log("index ", index);
-    console.log("length ", questions.length);
-
     if (index === questions.length) {
       localStorage.removeItem("tmp");
-      navigate("/result", { state: { score: score, data: questions } });
+      navigate("/result", { state: { score: score, data: questions, title: title, level: level } });
     } else {
       localStorage.setItem("tmp", JSON.stringify(index));
     }
@@ -89,6 +86,7 @@ const Quizz = ({ type, questions }: QuizzProps) => {
           ...score,
           { word: curr.word, answer: curr.answer, user: answer },
         ]);
+        setAnswer("");
       setIndex(index < questions.length ? index + 1 : index);
       if (inputRef.current) {
         inputRef.current.value = ""; // Reset the input value
@@ -109,6 +107,7 @@ const Quizz = ({ type, questions }: QuizzProps) => {
           { word: curr.word, answer: curr.answer, user: answer },
         ]);
       setIndex((prev) => prev + 1);
+      setAnswer("");
       if (inputRef.current) {
         inputRef.current.value = ""; // Reset the input value
       }
@@ -130,7 +129,7 @@ const Quizz = ({ type, questions }: QuizzProps) => {
               lang="ja-JP" // Langue, par défaut "ja-JP"
             />
           </div>
-          <div className="flex justify-center items-center flex-col w-4/5 h-fit">
+          <div className="flex justify-center items-center flex-col space-y-6 w-4/5 h-fit">
             <div className="my-2">
               <span className="font-bold text-4xl">
                 {curr.type === "D" ? curr.answer[`${mode.mode}`] : curr.word}
