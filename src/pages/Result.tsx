@@ -13,6 +13,8 @@ const Save = () => {
   let data = location.state.data;
   let result = scoreCalculation(score);
 
+  console.log("result ", result);
+  
   const handleRetry = () => {
     localStorage.removeItem('score')
     localStorage.removeItem('tmp')
@@ -32,7 +34,7 @@ const Save = () => {
             <th className="w-1/5 py-2">score</th>
             <th className="w-1/5 py-2">word</th>
             <th className="w-1/5 py-2">your answer</th>
-            <th className="w-1/5 py-2">correct answer</th>
+            <th className="w-1/5 py-2">possible answers</th>
           </tr>
         </thead>
         <tbody>

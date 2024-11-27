@@ -5,11 +5,10 @@ import ModeSwitcher from "./ModeSwitcher";
 import { useMode } from "../context/ModeContext";
 import ListenButton from "./ListenButton";
 
-
 interface AnswerProps {
-  romaji: string
-  kanji: string
-  kana: string
+  romaji: string;
+  kanji: string;
+  kana: string;
 }
 
 interface Question {
@@ -43,9 +42,6 @@ const Quizz = ({ type, questions }: QuizzProps) => {
   const navigate = useNavigate();
   const curr = questions[index];
 
-  
-  
-
   useEffect(() => {
     const storedScore = localStorage.getItem("score");
     const storedIndex: string | null = localStorage.getItem("tmp");
@@ -59,7 +55,9 @@ const Quizz = ({ type, questions }: QuizzProps) => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("tmp", JSON.stringify(index));
+    console.log("index ", index);
+    console.log("length ", questions.length);
+
     if (index === questions.length) {
       localStorage.removeItem("tmp");
       navigate("/result", { state: { score: score, data: questions } });
@@ -120,53 +118,55 @@ const Quizz = ({ type, questions }: QuizzProps) => {
 
   return (
     <div className="relative p-4 m-4 flex justify-center items-center text-lightGrayL bg-blackL rounded-lg w-2/5 h-2/5">
-      <div className="absolute top-4 left-4">
-        <ModeSwitcher />
-      </div>
-      <div className="absolute top-4 right-4">
-      <ListenButton
-          text={curr.answer[`${mode.mode}`]}
-          disabled={curr.type !== "D"}
-          lang="ja-JP" // Langue, par défaut "ja-JP"
-        />
-      </div>
       {index < questions.length && (
-        <div className="flex justify-center items-center flex-col w-4/5 h-fit">
-          <div className="my-2">
-            <span className="font-bold text-4xl">
-              {curr.type === "D" ? curr.answer[`${mode.mode}`] : curr.word}
-            </span>
+        <>
+          <div className="absolute top-4 left-4">
+            <ModeSwitcher />
           </div>
-          {curr.type === "D" ? (
+          <div className="absolute top-4 right-4">
+            <ListenButton
+              text={curr.answer[`${mode.mode}`]}
+              disabled={curr.type !== "D"}
+              lang="ja-JP" // Langue, par défaut "ja-JP"
+            />
+          </div>
+          <div className="flex justify-center items-center flex-col w-4/5 h-fit">
             <div className="my-2">
-              <span className="font-bold text-4xl">{curr.word}</span>
+              <span className="font-bold text-4xl">
+                {curr.type === "D" ? curr.answer[`${mode.mode}`] : curr.word}
+              </span>
             </div>
-          ) : (
-            <div className="my-2 flex justify-center">
-              <Input
-                ref={inputRef}
-                autoFocus
-                className="w-3/5 bg-transparent text-center 
-               text-2xl text-purple font-bold 
-               border-blackL border-solid border-b-2 
-               focus:outline-none dark:border-lightWhite"
-                name="answer"
-                type="text"
-                onChange={(event) => handleAnswer(event)}
-                onKeyDown={handleKey}
-              />
+            {curr.type === "D" ? (
+              <div className="my-2">
+                <span className="font-bold text-4xl">{curr.word}</span>
+              </div>
+            ) : (
+              <div className="my-2 flex justify-center">
+                <Input
+                  ref={inputRef}
+                  autoFocus
+                  className="w-3/5 bg-transparent text-center 
+                text-2xl text-purple font-bold 
+                border-blackL border-solid border-b-2 
+                focus:outline-none dark:border-lightWhite"
+                  name="answer"
+                  type="text"
+                  onChange={(event) => handleAnswer(event)}
+                  onKeyDown={handleKey}
+                />
+              </div>
+            )}
+            <div className="my-2">
+              <Button
+                className="text-xl font-bold p-2"
+                ref={buttonRef}
+                onClick={nextQuestion}
+              >
+                suivant
+              </Button>
             </div>
-          )}
-          <div className="my-2">
-            <Button
-              className="text-xl font-bold p-2"
-              ref={buttonRef}
-              onClick={nextQuestion}
-            >
-              suivant
-            </Button>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
