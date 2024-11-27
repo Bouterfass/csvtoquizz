@@ -138,7 +138,11 @@ const Playground: React.FC = () => {
           ))}
         </div>
         {found.isFound && <div>
-          <Input />
+          <Input  className=" bg-transparent text-center 
+                text-xl text-blackL font-bold 
+                border-blackL border-solid border-b-2 
+                focus:outline-none dark:border-lightWhite 
+                dark:text-lightGrayL "/>
         </div>
         }
       </div>
