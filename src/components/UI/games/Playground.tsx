@@ -14,7 +14,7 @@ export const foundWord = (word: string, words: Array<{ word: string, translation
 
 const Playground: React.FC = () => {
   const initialCharacters = ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
-    "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と"];
+    "さ", "し"];
 
 
   const availableWords = [
