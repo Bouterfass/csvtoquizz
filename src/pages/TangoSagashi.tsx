@@ -1,12 +1,16 @@
 import Playground from "../components/UI/games/Playground";
-import Section from "../components/UI/Section";
+import ScoreBoard from "../components/UI/games/ScoreBoard";
+import ThreePartsSection from "../components/UI/ThreePartsSection";
 
 const TangoSagashi = () => {
-    return (
-        <Section>
-            <span className="text-lightWhite">Tango Sagashi</span>
+    return (<>
+        <ThreePartsSection header={<span className="text-lightWhite">Tango Sagashi</span>}
+            sizes={["35%", "30%", "35%"]}>
+            <div>1</div>
             <Playground />
-        </Section>
+            <div>3</div>
+        </ThreePartsSection>
+    </>
     )
 }
 

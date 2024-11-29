@@ -20,6 +20,8 @@ module.exports = {
         darkWhite: '#ffffff',
         darkGray: '#818181',
 
+        validation: '#22c55e',
+
         test: '#b45309',
         testDk: '#fecaca',
 

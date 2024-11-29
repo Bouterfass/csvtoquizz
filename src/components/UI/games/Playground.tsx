@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Capsule from "./Capsule";
-import useWindowSize from "../../../hooks/useWindowSize";
 import { Input } from "@headlessui/react";
-
+import { CAPSULE_SIZE } from "../../../globals/variables";
 
 export const foundWord = (word: string, words: Array<{ word: string, translation: string }>): string | undefined => {
 
@@ -13,8 +12,7 @@ export const foundWord = (word: string, words: Array<{ word: string, translation
 }
 
 const Playground: React.FC = () => {
-  const initialCharacters = ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
-    "さ", "し"];
+  const initialCharacters = ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ"];
 
 
   const availableWords = [
@@ -31,24 +29,57 @@ const Playground: React.FC = () => {
   ];
 
   const [color, setColor] = useState<string>("#818181")
-  const [found, setFound] = useState<{ isFound: boolean, data: { word: string | undefined, translation: string | undefined } }>({ isFound: false, data: { word: "", translation: "" } })
-  const { width, height } = useWindowSize()
+  const [found, setFound] = useState<{
+    isFound: boolean, data: {
+      word: string | undefined,
+      translation: string | undefined
+    }
+  }>({ isFound: false, data: { word: "", translation: "" } })
 
-  const [playgroundCapsules, setPlaygroundCapsules] = useState(
-    initialCharacters.map((char, index) => ({
-      id: index,
-      char,
-      position: { x: Math.random() * ((width - width / 5) - 100), y: Math.random() * (((height * 4 / 5) - height / 5) - 100) }, // Random positions
-    }))
-  );
+  const playgroundRef = useRef<HTMLDivElement | null>(null);
+
+  const [playgroundCapsules, setPlaygroundCapsules] = useState<
+    Array<{
+      id: number;
+      char: string;
+      position: { x: number; y: number };
+      initialPosition: { x: number; y: number };
+    }>
+  >([]);
 
   const [stackCapsules, setStackCapsules] = useState<
-    Array<{ id: number; char: string }>
+    Array<{
+      id: number;
+      char: string;
+      initialPosition: { x: number; y: number };
+    }>
   >([]);
+
+  useEffect(() => {
+    if (playgroundRef.current) {
+      const playgroundBounds = playgroundRef.current.getBoundingClientRect();
+
+      const capsules = initialCharacters.map((char, index) => {
+        const initialPosition = {
+          x: Math.random() * (playgroundBounds.width - CAPSULE_SIZE),
+          y: Math.random() * (playgroundBounds.height - CAPSULE_SIZE),
+        };
+
+        return {
+          id: index,
+          char,
+          position: initialPosition,
+          initialPosition: { ...initialPosition },
+        };
+      });
+
+      setPlaygroundCapsules(capsules);
+    }
+  }, []);
+
 
 
   useEffect(() => {
-
     const combinedString = stackCapsules.map(c => c.char).join('')
     let foundword = foundWord(combinedString, availableWords)
 
@@ -80,31 +111,32 @@ const Playground: React.FC = () => {
       );
       setStackCapsules((prev) => [...prev, clickedCapsule]);
     }
-
-
   };
 
   const handleStackClick = (id: number) => {
-    // Move capsule from Stack to Playground
     const clickedCapsule = stackCapsules.find((capsule) => capsule.id === id);
+
     if (clickedCapsule) {
-      setStackCapsules((prev) =>
-        prev.filter((capsule) => capsule.id !== id)
-      );
+      setStackCapsules((prev) => prev.filter((capsule) => capsule.id !== id));
       setPlaygroundCapsules((prev) => [
         ...prev,
-        { ...clickedCapsule, position: { x: Math.random() * 400, y: Math.random() * 400 } }, // Add new random position
+        {
+          id: clickedCapsule.id,
+          char: clickedCapsule.char,
+          position: clickedCapsule.initialPosition, 
+          initialPosition: clickedCapsule.initialPosition,
+        },
       ]);
     }
-
-
   };
 
+
   return (
-    <div className="relative w-4/5 h-4/5 bg-lightGrayL rounded-lg shadow-lg p-4
+    <div className="relative w-full h-4/5 bg-lightGrayL rounded-lg shadow-lg p-4
                     dark:bg-blackL">
       {/* Playground */}
-      <div className="relative w-full h-4/5 bg-white rounded-md
+      <div ref={playgroundRef}
+        className="relative w-full h-4/5 bg-white rounded-md
             dark:bg-black">
         {playgroundCapsules.map((capsule) => (
           <div
@@ -138,7 +170,7 @@ const Playground: React.FC = () => {
           ))}
         </div>
         {found.isFound && <div>
-          <Input  className=" bg-transparent text-center 
+          <Input className=" bg-transparent text-center 
                 text-xl text-blackL font-bold 
                 border-blackL border-solid border-b-2 
                 focus:outline-none dark:border-lightWhite 
