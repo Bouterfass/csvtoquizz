@@ -2,15 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import Capsule from "./Capsule";
 import { Input } from "@headlessui/react";
 import { CAPSULE_SIZE } from "../../../globals/variables";
+import { foundWord } from "../../../utils/foundWord";
+import { getTsPoints } from "../../../utils/getTsPoints";
 
-export const foundWord = (
-  word: string,
-  words: Array<{ word: string; translation: string }>
-): string | undefined => {
-  const w = words.find((w) => w.word === word);
-  if (w) return w.translation;
-  return undefined;
-};
 
 const Playground: React.FC = () => {
   const initialCharacters = [
@@ -39,17 +33,21 @@ const Playground: React.FC = () => {
     { word: "あした", translation: "demain" },
   ];
 
+  let words: string[] = availableWords.map(w => w.word)
+  let translations: string[] = availableWords.map(w => w.translation)
+
+  const [answer, setAnswer] = useState<string>("")
   const [color, setColor] = useState<string>("#818181");
   const [found, setFound] = useState<{
     isFound: boolean;
     data: {
-      word: string | undefined;
-      translation: string | undefined;
+      word: string;
+      translation: string;
     };
-  }>({ isFound: false, data: { word: "", translation: "" } });
-
-  const playgroundRef = useRef<HTMLDivElement | null>(null);
-
+  }>({ isFound: false, data: { word: "", translation: "" } })
+  const [score, setScore] = useState<Array<{word: string, translation: string, points: number}>>([])
+  const playgroundRef = useRef<HTMLDivElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const [playgroundCapsules, setPlaygroundCapsules] = useState<
     Array<{
       id: number;
@@ -145,13 +143,16 @@ const Playground: React.FC = () => {
 
     if (foundword) {
       let translation = availableWords.find((s) => s.word === foundword);
+      if (!translation) {
+        throw new Error(`Translation for word "${foundword}" not found`);
+      }
 
       setColor("#22c55e");
       setFound({
         isFound: true,
         data: {
-          word: translation?.word,
-          translation: translation?.translation,
+          word: translation.word,
+          translation: translation.translation,
         },
       });
     } else {
@@ -192,6 +193,21 @@ const Playground: React.FC = () => {
       ]);
     }
   };
+
+  const handleAnswer = (event: any) => {
+    let ans: string = event.target.value
+    setAnswer(ans)
+    if (translations.includes(answer) && found.isFound) {
+      if (found.data.translation === answer) {
+        setScore((prev) => {
+          return [
+            ...prev,
+            { word: found.data.word, translation: answer, points: getTsPoints(found.data.word)}
+          ]
+        })
+      }
+    }
+  }
 
   return (
     <div
@@ -240,6 +256,10 @@ const Playground: React.FC = () => {
         {found.isFound && (
           <div>
             <Input
+              ref={inputRef}
+              type="text"
+              name="answer"
+              onChange={event => handleAnswer(event)}
               className=" bg-transparent text-center 
                 text-xl text-blackL font-bold 
                 border-blackL border-solid border-b-2 
