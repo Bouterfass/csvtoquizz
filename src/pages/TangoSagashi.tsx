@@ -6,7 +6,7 @@ const TangoSagashi = () => {
     return (<>
         <ThreePartsSection header={<span className="text-lightWhite">Tango Sagashi</span>}
             sizes={["35%", "30%", "35%"]}>
-            <div>1</div>
+            <ScoreBoard />
             <Playground />
             <div>3</div>
         </ThreePartsSection>
