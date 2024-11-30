@@ -167,7 +167,7 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
         },
       });
     } else {
-      setColor("#818181");
+      setColor('#9394a5');
       setFound({
         isFound: false,
         data: { word: "", translation: "" },
