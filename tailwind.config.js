@@ -4,6 +4,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      scrollbar: {
+        hide: 'scrollbar-width: none; -ms-overflow-style: none;',
+      },
       colors: {
 
         transparent: 'transparent',

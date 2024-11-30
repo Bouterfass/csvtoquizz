@@ -15,8 +15,6 @@ const ThreePartsSection: React.FC<ThreePartsSectionProps> = ({
     const [left, center, right] = children;
     const [leftSize, centerSize, rightSize] = sizes;
 
-    console.table(sizes)
-
     return (
         <div className="bg-lightWhite flex flex-col w-full dark:bg-blackDk"
             style={{ height: `calc(100vh - ${NAVBAR_HEIGHT}px)` }}>

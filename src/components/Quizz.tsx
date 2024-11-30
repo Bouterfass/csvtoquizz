@@ -86,7 +86,7 @@ const Quizz = ({ questions, title, level }: QuizzProps) => {
           ...score,
           { word: curr.word, answer: curr.answer, user: answer },
         ]);
-        setAnswer("");
+      setAnswer("");
       setIndex(index < questions.length ? index + 1 : index);
       if (inputRef.current) {
         inputRef.current.value = ""; // Reset the input value

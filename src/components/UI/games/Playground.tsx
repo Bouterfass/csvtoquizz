@@ -6,7 +6,17 @@ import { foundWord } from "../../../utils/foundWord";
 import { getTsPoints } from "../../../utils/getTsPoints";
 
 
-const Playground: React.FC = () => {
+interface ScoreProps {
+  word: string
+  translation: string
+  points: number
+}
+
+interface PlaygroundProps {
+  onHandleScore: (score: ScoreProps) => void;
+}
+
+const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
   const initialCharacters = [
     "あ",
     "い",
@@ -45,7 +55,7 @@ const Playground: React.FC = () => {
       translation: string;
     };
   }>({ isFound: false, data: { word: "", translation: "" } })
-  const [score, setScore] = useState<Array<{word: string, translation: string, points: number}>>([])
+  const [score, setScore] = useState<Array<{ word: string, translation: string, points: number }>>([])
   const playgroundRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [playgroundCapsules, setPlaygroundCapsules] = useState<
@@ -142,7 +152,8 @@ const Playground: React.FC = () => {
     let foundword = foundWord(combinedString, availableWords);
 
     if (foundword) {
-      let translation = availableWords.find((s) => s.word === foundword);
+      let translation = availableWords.find((s) => s.translation === foundword);
+      
       if (!translation) {
         throw new Error(`Translation for word "${foundword}" not found`);
       }
@@ -164,6 +175,12 @@ const Playground: React.FC = () => {
     }
   }, [stackCapsules]);
 
+  useEffect(() => {
+    if (found.isFound && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [found.isFound]);
+
   const handleCapsuleClick = (id: number) => {
     // Move capsule from Playground to Stack
     const clickedCapsule = playgroundCapsules.find(
@@ -176,6 +193,22 @@ const Playground: React.FC = () => {
       setStackCapsules((prev) => [...prev, clickedCapsule]);
     }
   };
+
+  const cleanStack = () => {
+    stackCapsules.forEach(stack => {
+      setPlaygroundCapsules((prev) => [
+        ...prev,
+        {
+          id: stack.id,
+          char: stack.char,
+          position: stack.initialPosition,
+          initialPosition: stack.initialPosition,
+        },
+      ]);
+      setStackCapsules([]);
+    })
+
+  }
 
   const handleStackClick = (id: number) => {
     const clickedCapsule = stackCapsules.find((capsule) => capsule.id === id);
@@ -197,13 +230,32 @@ const Playground: React.FC = () => {
   const handleAnswer = (event: any) => {
     let ans: string = event.target.value
     setAnswer(ans)
+    
     if (translations.includes(answer) && found.isFound) {
+      
       if (found.data.translation === answer) {
+        
+        let newScore: ScoreProps = {
+          word: found.data.word, 
+          translation: answer, 
+          points: getTsPoints(found.data.word)
+        }
         setScore((prev) => {
           return [
             ...prev,
-            { word: found.data.word, translation: answer, points: getTsPoints(found.data.word)}
+            newScore
           ]
+        })
+        onHandleScore(newScore)
+        setAnswer("")
+        cleanStack()
+        event.target.value = ""
+        setFound({
+          isFound: false,
+          data: {
+            word: "",
+            translation: ""
+          }
         })
       }
     }
