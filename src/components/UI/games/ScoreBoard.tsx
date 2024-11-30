@@ -13,6 +13,7 @@ interface ScoreBoardProps {
 
 const ScoreBoard: React.FC<ScoreBoardProps> = ({ score }) => {
 
+
     let total: number = score.reduce((acc, curr) => acc + curr.points, 0);
 
     return <div className="h-4/5 w-full flex justify-end">
@@ -21,12 +22,12 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({ score }) => {
                 <span className="text-lg text-validation">{total}</span>
             </header>
             <div className={`flex bg-darkWhite flex-col-reverse dark:border-2
-            items-center space-y-1 pb-1 flex-1 h-full w-full border-2 border-solid dark:border-darkGray
+            items-center pb-1 flex-1 h-full w-full border-2 border-solid dark:border-darkGray
           dark:bg-black rounded-lg mt-2 overflow-y-auto ${style['scrollbar-hide']}`}>
                 {score && score.map((s, index) => {
                     return (
                         <div className="flex justify-between flex-row p-2 w-[98%] font-bold text-sm
-                        rounded-md bg-gray-200 border border-lightGrayD text-blackL dark:bg-darkGray dark:text-lightGrayL
+                        rounded-md bg-gray-200 mt-1 border border-lightGrayD text-blackL dark:bg-darkGray dark:text-black
                         " key={index}>
                             <div>
                                 <span>{s.word}</span>

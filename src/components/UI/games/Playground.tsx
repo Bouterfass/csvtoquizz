@@ -55,7 +55,11 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
       translation: string;
     };
   }>({ isFound: false, data: { word: "", translation: "" } })
-  const [score, setScore] = useState<Array<{ word: string, translation: string, points: number }>>([])
+  const [alreadyFound, setAlreadyFound] = useState<boolean>(false)
+  const [score, setScore] = useState<Array<ScoreProps>>(() => {
+    // Charger depuis localStorage lors de l'initialisation
+    const storedScore = localStorage.getItem("TScore");
+    return storedScore ? JSON.parse(storedScore) : []})
   const playgroundRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [playgroundCapsules, setPlaygroundCapsules] = useState<
@@ -148,24 +152,46 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
   }, [playgroundRef]);
 
   useEffect(() => {
+    const storedScore = localStorage.getItem("TScore")
+    if (storedScore) {
+      const parsedScore = JSON.parse(storedScore)
+      if (Array.isArray(parsedScore)) {
+        setScore(parsedScore)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log("passe par la ");
+
+    localStorage.setItem("TScore", JSON.stringify(score))
+  }, [score])
+
+  useEffect(() => {
     const combinedString = stackCapsules.map((c) => c.char).join("");
     let foundword = foundWord(combinedString, availableWords);
 
     if (foundword) {
+
       let translation = availableWords.find((s) => s.translation === foundword);
-      
+      let scoreWords: Array<string> = score.map(w => w.word)
       if (!translation) {
         throw new Error(`Translation for word "${foundword}" not found`);
       }
+      if (scoreWords.includes(translation.word)) {
 
-      setColor("#22c55e");
-      setFound({
-        isFound: true,
-        data: {
-          word: translation.word,
-          translation: translation.translation,
-        },
-      });
+        setAlreadyFound(true)
+        setColor("#dc2626")
+      } else {
+        setColor("#22c55e");
+        setFound({
+          isFound: true,
+          data: {
+            word: translation.word,
+            translation: translation.translation,
+          },
+        });
+      }
     } else {
       setColor('#9394a5');
       setFound({
@@ -180,6 +206,18 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
       inputRef.current.focus();
     }
   }, [found.isFound]);
+
+  useEffect(() => {
+    if (alreadyFound) {
+      const timer = setTimeout(() => {
+        setAlreadyFound(false);
+        setColor('#9394a5')
+      }, 2000); // 3 secondes
+
+      // Nettoyage : annuler le timer si `alreadyFound` change avant la fin
+      return () => clearTimeout(timer);
+    }
+  }, [alreadyFound]);
 
   const handleCapsuleClick = (id: number) => {
     // Move capsule from Playground to Stack
@@ -230,14 +268,14 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
   const handleAnswer = (event: any) => {
     let ans: string = event.target.value
     setAnswer(ans)
-    
+
     if (translations.includes(answer) && found.isFound) {
-      
+
       if (found.data.translation === answer) {
-        
+
         let newScore: ScoreProps = {
-          word: found.data.word, 
-          translation: answer, 
+          word: found.data.word,
+          translation: answer,
           points: getTsPoints(found.data.word)
         }
         setScore((prev) => {
@@ -320,6 +358,13 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
             />
           </div>
         )}
+        {alreadyFound && (
+          <div className="font-bold text-error text-sm">
+            <span>Mot déjà trouvé! </span>
+          </div>
+        )
+
+        }
       </div>
     </div>
   );

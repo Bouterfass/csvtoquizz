@@ -18,6 +18,16 @@ const TangoSagashi = () => {
         setScore(prev => [...prev, score])
     }
 
+    useEffect(() => {
+        const storedScore = localStorage.getItem("TScore")
+        if (storedScore) {
+            const parsedScore = JSON.parse(storedScore)
+            if (Array.isArray(parsedScore)) {
+                setScore(parsedScore)
+            }
+        }
+    }, [])
+
     return (
         <ThreePartsSection header={<span className="text-lightWhite">Tango Sagashi</span>}
             sizes={["35%", "30%", "35%"]}>

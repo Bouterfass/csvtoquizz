@@ -4,6 +4,7 @@ import BigTitle from "../components/UI/BigTitle";
 import Card from "../components/UI/Card";
 import { useNavigate } from "react-router-dom";
 import learningQMaker from "../utils/learningQMaker";
+import { clearCache } from "../utils/clearCache";
 
 
 interface PatternItem {
@@ -97,8 +98,7 @@ const Train = () => {
 
       setQuizzData(quizzWithStats);
     };
-    localStorage.removeItem("score")
-    localStorage.removeItem('tmp')
+    clearCache(['theme'])
     loadData();
   }, []);
 

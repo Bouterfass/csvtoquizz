@@ -24,6 +24,7 @@ module.exports = {
         darkGray: '#818181',
 
         validation: '#22c55e',
+        error: '#dc2626',
 
         test: '#b45309',
         testDk: '#fecaca',

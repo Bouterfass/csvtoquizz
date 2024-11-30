@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ModeSwitcher from "./ModeSwitcher";
 import { useMode } from "../context/ModeContext";
 import ListenButton from "./ListenButton";
+import { clearCache } from "../utils/clearCache";
 
 interface AnswerProps {
   romaji: string;
@@ -56,7 +57,7 @@ const Quizz = ({ questions, title, level }: QuizzProps) => {
 
   useEffect(() => {
     if (index === questions.length) {
-      localStorage.removeItem("tmp");
+      clearCache(["theme"])
       navigate("/result", { state: { score: score, data: questions, title: title, level: level } });
     } else {
       localStorage.setItem("tmp", JSON.stringify(index));

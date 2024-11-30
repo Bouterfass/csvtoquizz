@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { clearCache } from '../../utils/clearCache';
 
 export default function CancelPopOver() {
     let [isOpen, setIsOpen] = useState(false)
@@ -13,7 +14,7 @@ export default function CancelPopOver() {
 
     const handleLeave = () => {
         setIsOpen(false)
-        localStorage.removeItem('score');
+        clearCache(["theme"])
         navigate('/')
     }
 

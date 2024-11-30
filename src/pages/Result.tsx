@@ -4,6 +4,7 @@ import CountUp from "react-countup";
 import ListItem from "../components/UI/ListItem";
 import Button from "../components/UI/Button";
 import Section from "../components/UI/Section";
+import { clearCache } from "../utils/clearCache";
 
 const Save = () => {
   let location = useLocation();
@@ -28,13 +29,11 @@ const Save = () => {
 
 
   const handleRetry = () => {
-    localStorage.removeItem('score')
-    localStorage.removeItem('tmp')
+    clearCache(['theme'])
     navigate(`/test/${data.length}`, { state: { key: data, title: title, level: level } });
   }
   const handleHome = () => {
-    localStorage.removeItem('score')
-    localStorage.removeItem('tmp')
+    clearCache(['theme'])
     navigate("/");
   }
 
