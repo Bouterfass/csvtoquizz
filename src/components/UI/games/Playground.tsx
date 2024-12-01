@@ -43,8 +43,6 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
     { word: "あした", translation: "demain" },
   ];
 
-  let words: string[] = availableWords.map(w => w.word)
-  let translations: string[] = availableWords.map(w => w.translation)
 
   const [answer, setAnswer] = useState<string>("")
   const [color, setColor] = useState<string>("#818181");
@@ -56,10 +54,12 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
     };
   }>({ isFound: false, data: { word: "", translation: "" } })
   const [alreadyFound, setAlreadyFound] = useState<boolean>(false)
+  const [translationError, setTranslationError] = useState<boolean>(false)
   const [score, setScore] = useState<Array<ScoreProps>>(() => {
     // Charger depuis localStorage lors de l'initialisation
     const storedScore = localStorage.getItem("TScore");
-    return storedScore ? JSON.parse(storedScore) : []})
+    return storedScore ? JSON.parse(storedScore) : []
+  })
   const playgroundRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [playgroundCapsules, setPlaygroundCapsules] = useState<
@@ -162,8 +162,6 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
   }, [])
 
   useEffect(() => {
-    console.log("passe par la ");
-
     localStorage.setItem("TScore", JSON.stringify(score))
   }, [score])
 
@@ -219,6 +217,15 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
     }
   }, [alreadyFound]);
 
+  useEffect(() => {
+    if (translationError) {
+      const timer = setTimeout(() => {
+        setTranslationError(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [translationError]);
+
   const handleCapsuleClick = (id: number) => {
     // Move capsule from Playground to Stack
     const clickedCapsule = playgroundCapsules.find(
@@ -265,39 +272,30 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
     }
   };
 
-  const handleAnswer = (event: any) => {
-    let ans: string = event.target.value
-    setAnswer(ans)
-
-    if (translations.includes(answer) && found.isFound) {
-
-      if (found.data.translation === answer) {
-
-        let newScore: ScoreProps = {
+  const handleAnswer = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      // L'utilisateur a appuyé sur Enter
+      if (found.isFound && answer === found.data.translation) {
+        // Traduction correcte
+        const newScore: ScoreProps = {
           word: found.data.word,
           translation: answer,
-          points: getTsPoints(found.data.word)
-        }
-        setScore((prev) => {
-          return [
-            ...prev,
-            newScore
-          ]
-        })
-        onHandleScore(newScore)
-        setAnswer("")
-        cleanStack()
-        event.target.value = ""
+          points: getTsPoints(found.data.word),
+        };
+        setScore((prev) => [...prev, newScore]);
+        onHandleScore(newScore);
+        setAnswer("");
         setFound({
           isFound: false,
-          data: {
-            word: "",
-            translation: ""
-          }
-        })
+          data: { word: "", translation: "" },
+        });
+      } else {
+        // Traduction incorrecte
+        setTranslationError(true);
       }
     }
-  }
+  };
+
 
   return (
     <div
@@ -349,7 +347,9 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
               ref={inputRef}
               type="text"
               name="answer"
-              onChange={event => handleAnswer(event)}
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              onKeyDown={handleAnswer}
               className=" bg-transparent text-center 
                 text-xl text-blackL font-bold 
                 border-blackL border-solid border-b-2 
@@ -362,9 +362,12 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
           <div className="font-bold text-error text-sm">
             <span>Mot déjà trouvé! </span>
           </div>
-        )
-
-        }
+        )}
+        {translationError && (
+          <div className="font-bold text-error text-sm">
+            <span>Traduction incorrecte!</span>
+          </div>
+        )}
       </div>
     </div>
   );

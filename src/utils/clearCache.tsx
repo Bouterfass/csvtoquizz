@@ -5,5 +5,4 @@ export const clearCache = (keysToKeep: string[]) => {
             localStorage.removeItem(key)
         }
     })
-
 }

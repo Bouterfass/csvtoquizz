@@ -9,7 +9,7 @@ interface ButtonProps {
 const Button = ({ type, handler, children }: ButtonProps) => {
   return type === "first" ? (
     <button
-      className="w-32 rounded border-2 border-solid border-blackL hover:border-lightPurple py-2 px-4 transition-colors ease-in-out delay-50
+      className="w-fit rounded border-2 border-solid border-blackL hover:border-lightPurple py-2 px-4 transition-colors ease-in-out delay-50
         text-lg text-black hover:bg-lightPurple hover:text-lightWhite
         dark:text-lightWhite dark:border-lightWhite dark:hover:border-lightPurple
         "

@@ -6,6 +6,7 @@ import Shiritori from './pages/Shiritori';
 import App from './App';
 import Layout from './Layout';
 import KanjiKetsugou from './pages/KanjiKetsugou';
+import TangoSagashiGame from './pages/TangoSagashiGame';
 import TangoSagashi from './pages/TangoSagashi';
 
 export const router = createBrowserRouter([
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: 'tango-sagashi',
         element: <TangoSagashi />
+      },
+      {
+        path: 'ts-game',
+        element: <TangoSagashiGame />
       }
     ],
   },
