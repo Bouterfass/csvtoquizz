@@ -8,6 +8,7 @@ import Layout from './Layout';
 import KanjiKetsugou from './pages/KanjiKetsugou';
 import TangoSagashiGame from './pages/TangoSagashiGame';
 import TangoSagashi from './pages/TangoSagashi';
+import SignIn from './pages/SignIn';
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: 'ts-game',
         element: <TangoSagashiGame />
+      },
+      {
+        path: 'sign-in',
+        element: <SignIn />
       }
     ],
   },

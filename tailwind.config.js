@@ -16,12 +16,13 @@ module.exports = {
         lightGray: '#d2d3db',
         lightGrayD: '#9394a5',
         lightPurple: '#484b6a',
-
+        
         blackDk: '#000000',
         black: '#161618',
         blackL: '#212124',
         darkWhite: '#ffffff',
         darkGray: '#818181',
+        darkPurple: '#9333ea',
 
         validation: '#22c55e',
         error: '#dc2626',
