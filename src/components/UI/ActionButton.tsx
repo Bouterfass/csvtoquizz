@@ -5,6 +5,8 @@ interface ActionButtonProps {
     children: ReactNode
 }
 
+// Bouton qui lance une game
+
 const ActionButton = ({ handler, children }: ActionButtonProps) => {
     return (
         <button

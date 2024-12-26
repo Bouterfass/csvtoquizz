@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import Section from "../components/UI/Section";
+import FormFieldUI from "../components/UI/FormFieldUI";
 
 interface FormProps {
     alias: string;
@@ -23,10 +24,10 @@ const SignIn: React.FC = () => {
             >
                 {({ isSubmitting }) => (
                     <Form>
-                        <div>
+                        <FormFieldUI>
                             <label htmlFor="alias">Pseudonyme</label>
                             <Field id="alias" name="alias" placeholder="Pseudonyme" />
-                        </div>
+                        </FormFieldUI>
                         <div>
                             <label htmlFor="email">Email</label>
                             <Field id="email" name="email" placeholder="Email" type="email" />
