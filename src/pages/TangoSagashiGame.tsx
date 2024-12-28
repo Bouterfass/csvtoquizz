@@ -42,6 +42,10 @@ const TangoSagashiGame = () => {
     localStorage.setItem("TScore", JSON.stringify([...score, newScore]));
   };
 
+  const exitGame = ():void => {
+    alert('finished')
+  }
+
   return (
     <ThreePartsSection
       header={<span className="text-lightWhite">Tango Sagashi</span>}
@@ -57,7 +61,7 @@ const TangoSagashiGame = () => {
 
       {/* Timer */}
       <div className="h-4/5 w-full pl-2 flex justify-start">
-        <CountDownTimer duration={180} />
+        <CountDownTimer duration={180} onTimeout={exitGame} />
       </div>
     </ThreePartsSection>
   );

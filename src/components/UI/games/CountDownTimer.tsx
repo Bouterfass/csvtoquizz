@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 interface CountDownTimerProps {
   duration: number; // Durée totale en secondes
-  onTimeout?: () => void; // Callback optionnel à exécuter quand le timer est terminé
+  onTimeout: () => void; // Callback optionnel à exécuter quand le timer est terminé
 }
 
 const CountDownTimer: React.FC<CountDownTimerProps> = ({ duration, onTimeout }) => {
@@ -10,8 +10,11 @@ const CountDownTimer: React.FC<CountDownTimerProps> = ({ duration, onTimeout }) 
 
   useEffect(() => {
     if (timeLeft <= 0) {
-      if (onTimeout) onTimeout();
-      return;
+      // Exécute le callback une fois la barre visuellement vide
+      const timeout = setTimeout(() => {
+        if (onTimeout) onTimeout();
+      }, 1000); // Attendre 1 seconde pour la transition finale
+      return () => clearTimeout(timeout);
     }
 
     const interval = setInterval(() => {

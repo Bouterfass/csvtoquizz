@@ -21,6 +21,7 @@ const TangoSagashi = () => {
                 return;
             }
         }
+        clearCache(['theme'])
         // Met à jour le timestamp pour la prochaine partie
         localStorage.setItem("TSlastPlayed", Date.now().toString());
         // Lance le jeu

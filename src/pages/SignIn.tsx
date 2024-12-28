@@ -2,15 +2,33 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import Section from "../components/UI/Section";
 import FormFieldUI from "../components/UI/FormFieldUI";
+import { useMutation } from "@tanstack/react-query";
+import { createUser } from "../api/users/users";
 
 interface FormProps {
-    alias: string;
+    username: string;
     email: string;
     password: string;
 }
 
 const SignIn: React.FC = () => {
-    const initialValues: FormProps = { alias: "", email: "", password: "" };
+    const initialValues: FormProps = { username: "", email: "", password: "" };
+
+    const mutation = useMutation({
+        mutationFn: async (values: FormProps) => {
+            createUser(values)
+        },
+        onSuccess: data => {
+            console.log("Success ", data);
+            alert("Formulaire soumis avec succès")
+        },
+        onError: error => {
+            console.log("Erreur ", error);
+            alert("Une erreur est survenue lros de l'envoi du formulaire")
+            
+        }
+    })
+
 
     return (
         <Section>
@@ -19,14 +37,16 @@ const SignIn: React.FC = () => {
                 onSubmit={(values, actions) => {
                     console.log({ values, actions });
                     alert(JSON.stringify(values, null, 2));
+                    mutation.mutate(values)
                     actions.setSubmitting(false);
+                   
                 }}
             >
                 {({ isSubmitting }) => (
                     <Form>
                         <FormFieldUI>
-                            <label htmlFor="alias">Pseudonyme</label>
-                            <Field id="alias" name="alias" placeholder="Pseudonyme" />
+                            <label htmlFor="username">Pseudonyme</label>
+                            <Field id="username" name="username" placeholder="Pseudonyme" />
                         </FormFieldUI>
                         <div>
                             <label htmlFor="email">Email</label>
