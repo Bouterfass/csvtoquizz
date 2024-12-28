@@ -57,7 +57,7 @@ const TangoSagashiGame = () => {
 
       {/* Timer */}
       <div className="h-4/5 w-full pl-2 flex justify-start">
-        <CountDownTimer duration={60} />
+        <CountDownTimer duration={180} />
       </div>
     </ThreePartsSection>
   );

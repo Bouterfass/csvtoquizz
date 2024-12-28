@@ -17,18 +17,7 @@ interface PlaygroundProps {
 }
 
 const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
-  const initialCharacters = [
-    "あ",
-    "い",
-    "う",
-    "え",
-    "お",
-    "か",
-    "き",
-    "く",
-    "け",
-    "こ",
-  ];
+
 
   const availableWords = [
     { word: "あおい", translation: "bleu" },
@@ -43,6 +32,10 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
     { word: "あした", translation: "demain" },
   ];
 
+  const initialCharacters: string[] = [
+    ...new Set(availableWords.flatMap((item) => Array.from(item.word))),
+  ];
+  
 
   const [answer, setAnswer] = useState<string>("")
   const [color, setColor] = useState<string>("#818181");
@@ -232,9 +225,6 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
       (capsule) => capsule.id === id
     );
     if (clickedCapsule) {
-      setPlaygroundCapsules((prev) =>
-        prev.filter((capsule) => capsule.id !== id)
-      );
       setStackCapsules((prev) => [...prev, clickedCapsule]);
     }
   };
@@ -260,15 +250,6 @@ const Playground: React.FC<PlaygroundProps> = ({ onHandleScore }) => {
 
     if (clickedCapsule) {
       setStackCapsules((prev) => prev.filter((capsule) => capsule.id !== id));
-      setPlaygroundCapsules((prev) => [
-        ...prev,
-        {
-          id: clickedCapsule.id,
-          char: clickedCapsule.char,
-          position: clickedCapsule.initialPosition,
-          initialPosition: clickedCapsule.initialPosition,
-        },
-      ]);
     }
   };
 
