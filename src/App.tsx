@@ -1,6 +1,5 @@
 import "./App.css";
 import ActionButton from "./components/UI/ActionButton";
-import BigTitle from "./components/UI/BigTitle";
 import Section from "./components/UI/Section";
 import { useNavigate } from "react-router-dom";
 

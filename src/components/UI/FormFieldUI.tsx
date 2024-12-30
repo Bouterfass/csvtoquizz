@@ -7,7 +7,7 @@ interface FFUIProps {
 const FormFieldUI = ({ children }: FFUIProps) => {
 
     return (
-        <div className="bg-test flex flex-col">
+        <div className="flex flex-col space-y-1 font-bold text-lightPurple">
             {children}
         </div>
     )
